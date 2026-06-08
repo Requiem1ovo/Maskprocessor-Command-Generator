@@ -322,6 +322,40 @@ body {
   color: var(--md-sys-color-on-tertiary-container);
 }
 
+/* Swap Group Start button - orange/amber accent */
+.md-assist-chip--swap-group-start {
+  border-color: #E65100;
+  background-color: rgba(255, 143, 0, 0.12);
+  gap: 4px;
+}
+
+.md-assist-chip--swap-group-start:hover {
+  background-color: rgba(255, 143, 0, 0.24);
+}
+
+.md-assist-chip--swap-group-start .md-assist-chip__label {
+  color: #E65100;
+  font-weight: 500;
+  font-family: 'Roboto Mono', monospace;
+}
+
+/* Swap Group End button - orange/amber accent */
+.md-assist-chip--swap-group-end {
+  border-color: #E65100;
+  background-color: rgba(255, 143, 0, 0.12);
+  gap: 4px;
+}
+
+.md-assist-chip--swap-group-end:hover {
+  background-color: rgba(255, 143, 0, 0.24);
+}
+
+.md-assist-chip--swap-group-end .md-assist-chip__label {
+  color: #E65100;
+  font-weight: 500;
+  font-family: 'Roboto Mono', monospace;
+}
+
 /* Custom charset chip wrapper with delete */
 .custom-chip-wrapper {
   display: inline-flex;
@@ -511,6 +545,117 @@ body {
 
 .md-input-chip--static:hover {
   background-color: color-mix(in srgb, var(--md-sys-color-secondary) 20%, transparent);
+}
+
+/* Swap Group markers in assembly area */
+.md-input-chip--swap-group-start {
+  background-color: rgba(255, 143, 0, 0.15);
+  border-color: #E65100;
+  gap: 2px;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.md-input-chip--swap-group-start:hover {
+  background-color: rgba(255, 143, 0, 0.25);
+}
+
+.md-input-chip--swap-group-start .md-input-chip__text {
+  color: #E65100;
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.md-input-chip--swap-group-start .swap-group-full-label {
+  max-width: 0;
+  opacity: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 400;
+  font-size: 12px;
+  color: #E65100;
+  transition: max-width 0.25s ease, opacity 0.2s ease, margin 0.25s ease;
+  margin-left: 0;
+}
+
+.md-input-chip--swap-group-start:hover .swap-group-full-label {
+  max-width: 100px;
+  opacity: 1;
+  margin-left: 2px;
+}
+
+.md-input-chip--swap-group-start .md-input-chip__delete {
+  width: 0;
+  opacity: 0;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+  transition: width 0.2s ease, opacity 0.2s ease;
+}
+
+.md-input-chip--swap-group-start:hover .md-input-chip__delete {
+  width: 24px;
+  opacity: 1;
+}
+
+.md-input-chip--swap-group-end {
+  background-color: rgba(255, 143, 0, 0.15);
+  border-color: #E65100;
+  gap: 2px;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.md-input-chip--swap-group-end:hover {
+  background-color: rgba(255, 143, 0, 0.25);
+}
+
+.md-input-chip--swap-group-end .md-input-chip__text {
+  color: #E65100;
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.md-input-chip--swap-group-end .swap-group-full-label {
+  max-width: 0;
+  opacity: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 400;
+  font-size: 12px;
+  color: #E65100;
+  transition: max-width 0.25s ease, opacity 0.2s ease, margin 0.25s ease;
+  margin-right: 0;
+}
+
+.md-input-chip--swap-group-end:hover .swap-group-full-label {
+  max-width: 100px;
+  opacity: 1;
+  margin-right: 2px;
+}
+
+.md-input-chip--swap-group-end .md-input-chip__delete {
+  width: 0;
+  opacity: 0;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+  transition: width 0.2s ease, opacity 0.2s ease;
+}
+
+.md-input-chip--swap-group-end:hover .md-input-chip__delete {
+  width: 24px;
+  opacity: 1;
+}
+
+/* Blocks inside swap group */
+.md-input-chip--in-swap-group {
+  background-color: rgba(255, 143, 0, 0.08);
+  border-color: rgba(230, 81, 0, 0.4);
 }
 
 .md-input-chip__text {
@@ -766,10 +911,33 @@ body {
   font-style: italic;
 }
 
-.command-actions {
+.command-card__label {
+  font: var(--md-sys-typescale-label-small);
+  color: var(--md-sys-color-on-surface-variant);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.command-card__divider {
+  border: none;
+  border-top: 1px dashed var(--md-sys-color-outline-variant);
+  margin: 10px 0;
+}
+
+.command-card__header {
   display: flex;
-  justify-content: flex-end;
-  margin-top: 12px;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.command-card__header .command-card__code {
+  flex: 1;
+  min-width: 0;
+}
+
+.command-card__header .md-filled-button {
+  align-self: flex-end;
 }
 
 /* ========== Keyspace ========== */
@@ -942,6 +1110,17 @@ body {
     height: 28px;
   }
 
+  .md-input-chip--swap-group-start .md-input-chip__delete,
+  .md-input-chip--swap-group-end .md-input-chip__delete {
+    width: 0;
+    height: 24px;
+  }
+
+  .md-input-chip--swap-group-start:hover .md-input-chip__delete,
+  .md-input-chip--swap-group-end:hover .md-input-chip__delete {
+    width: 28px;
+  }
+
   .md-input-chip__delete .material-symbols-outlined {
     font-size: 18px;
   }
@@ -1048,6 +1227,22 @@ body {
     </div>
   </section>
 
+  <!-- Swap Group -->
+  <section class="section">
+    <div class="section__header">
+      <span class="material-symbols-outlined">change_circle</span>
+      Swap Group
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;">
+      <button class="md-assist-chip md-assist-chip--swap-group-start" id="swapGroupStartBtn" draggable="true" title="Start Swap Group - marks the beginning of a permutation group">
+        <span class="md-assist-chip__label">{ Start Group</span>
+      </button>
+      <button class="md-assist-chip md-assist-chip--swap-group-end" id="swapGroupEndBtn" draggable="true" title="End Swap Group - marks the end of a permutation group">
+        <span class="md-assist-chip__label">End Group }</span>
+      </button>
+    </div>
+  </section>
+
   <!-- Custom Charsets -->
   <section class="section">
     <div class="section__header">
@@ -1121,14 +1316,14 @@ body {
       Generated Command
     </div>
     <div class="command-card">
-      <div class="command-card__code" id="commandOutput">
-        <span class="command-card__empty">Add blocks to the assembly area to generate a command</span>
-      </div>
-      <div class="command-actions">
+      <div class="command-card__header">
         <button class="md-filled-button" id="copyBtn">
           <span class="material-symbols-outlined">content_copy</span>
           Copy Command
         </button>
+        <div class="command-card__code" id="commandOutput">
+          <span class="command-card__empty">Add blocks to the assembly area to generate a command</span>
+        </div>
       </div>
     </div>
   </section>
@@ -1221,6 +1416,8 @@ body {
   const dialogCancelBtn = $('#dialogCancelBtn');
   const dialogAddBtn = $('#dialogAddBtn');
   const snackbar = $('#snackbar');
+  const swapGroupStartBtn = $('#swapGroupStartBtn');
+  const swapGroupEndBtn = $('#swapGroupEndBtn');
 
   // ========== Theme ==========
   function initTheme() {
@@ -1411,6 +1608,37 @@ body {
     }));
   });
 
+  // ========== Swap Group ==========
+  swapGroupStartBtn.addEventListener('click', () => {
+    addBlockToAssembly('swap-group-start', '', '{');
+    updateCommand();
+  });
+
+  swapGroupStartBtn.addEventListener('dragstart', (e) => {
+    e.dataTransfer.effectAllowed = 'copy';
+    e.dataTransfer.setData('application/json', JSON.stringify({
+      source: 'charset-panel',
+      type: 'swap-group-start',
+      mask: '',
+      label: '{'
+    }));
+  });
+
+  swapGroupEndBtn.addEventListener('click', () => {
+    addBlockToAssembly('swap-group-end', '', '}');
+    updateCommand();
+  });
+
+  swapGroupEndBtn.addEventListener('dragstart', (e) => {
+    e.dataTransfer.effectAllowed = 'copy';
+    e.dataTransfer.setData('application/json', JSON.stringify({
+      source: 'charset-panel',
+      type: 'swap-group-end',
+      mask: '',
+      label: '}'
+    }));
+  });
+
   // ========== Assembly Area ==========
   function addBlockToAssembly(type, mask, label, customIndex, customChars) {
     const block = {
@@ -1462,15 +1690,45 @@ body {
       chip.draggable = true;
       chip.dataset.blockId = block.id;
 
+      // Check if this block is inside a swap group
+      if (block.type !== 'swap-group-start' && block.type !== 'swap-group-end') {
+        const inGroup = isInSwapGroup(idx);
+        if (inGroup) {
+          chip.classList.add('md-input-chip--in-swap-group');
+        }
+      }
+
       if (block.type === 'custom') {
         chip.classList.add('md-input-chip--custom');
       } else if (block.type === 'static') {
         chip.classList.add('md-input-chip--static');
+      } else if (block.type === 'swap-group-start') {
+        chip.classList.add('md-input-chip--swap-group-start');
+      } else if (block.type === 'swap-group-end') {
+        chip.classList.add('md-input-chip--swap-group-end');
       }
 
       const textSpan = document.createElement('span');
       textSpan.className = 'md-input-chip__text';
-      textSpan.textContent = block.label;
+
+      if (block.type === 'swap-group-start') {
+        textSpan.textContent = '{';
+        const fullLabel = document.createElement('span');
+        fullLabel.className = 'swap-group-full-label';
+        fullLabel.textContent = ' Start Group';
+        chip.appendChild(textSpan);
+        chip.appendChild(fullLabel);
+      } else if (block.type === 'swap-group-end') {
+        const fullLabel = document.createElement('span');
+        fullLabel.className = 'swap-group-full-label';
+        fullLabel.textContent = 'End Group';
+        textSpan.textContent = '}';
+        chip.appendChild(fullLabel);
+        chip.appendChild(textSpan);
+      } else {
+        textSpan.textContent = block.label;
+        chip.appendChild(textSpan);
+      }
 
       const deleteBtn = document.createElement('button');
       deleteBtn.className = 'md-input-chip__delete';
@@ -1480,7 +1738,6 @@ body {
         removeBlockFromAssembly(block.id);
       });
 
-      chip.appendChild(textSpan);
       chip.appendChild(deleteBtn);
 
       // Only dragstart and dragend on the chip itself
@@ -1673,20 +1930,14 @@ body {
   });
 
   // ========== Command Generation ==========
-  function updateCommand() {
-    if (state.assemblyBlocks.length === 0) {
-      commandOutput.innerHTML = '<span class="command-card__empty">Add blocks to the assembly area to generate a command</span>';
-      calculateKeyspace();
-      return;
-    }
-
-    // Build mask string
-    const maskParts = state.assemblyBlocks.map(b => b.mask);
+  function buildCommandFromBlocks(blocks) {
+    // Build mask string (exclude swap group markers)
+    const maskParts = blocks.filter(b => b.type !== 'swap-group-start' && b.type !== 'swap-group-end').map(b => b.mask);
     const mask = maskParts.join('');
 
     // Determine which custom charsets are used in the mask
     const usedCustomIndices = new Set();
-    state.assemblyBlocks.forEach(b => {
+    blocks.forEach(b => {
       if (b.type === 'custom' && b.customIndex) {
         usedCustomIndices.add(b.customIndex);
       }
@@ -1696,7 +1947,6 @@ body {
     const charsetOptions = [];
     state.customCharsets.forEach(cs => {
       if (usedCustomIndices.has(cs.index)) {
-        // Need to escape special chars in the charset for shell display
         charsetOptions.push(`-${cs.index} ${cs.chars}`);
       }
     });
@@ -1713,19 +1963,163 @@ body {
     if (incrementOption) parts.push(incrementOption);
     parts.push(mask);
 
-    const fullCommand = parts.join(' ');
+    return {
+      command: parts.join(' '),
+      charsetOptions,
+      incrementOption,
+      mask
+    };
+  }
 
-    // Render with syntax highlighting
-    let html = '<span class="cmd-prefix">mp64</span>';
-    charsetOptions.forEach(opt => {
+  // ========== Swap Group Helpers ==========
+  function factorial(n) {
+    return n <= 1 ? 1 : n * factorial(n - 1);
+  }
+
+  function isInSwapGroup(blockIdx) {
+    // Check if the block at blockIdx is between a swap-group-start and swap-group-end
+    let groupDepth = 0;
+    for (let i = 0; i < state.assemblyBlocks.length; i++) {
+      if (state.assemblyBlocks[i].type === 'swap-group-start') {
+        groupDepth++;
+      } else if (state.assemblyBlocks[i].type === 'swap-group-end') {
+        groupDepth--;
+      } else if (i === blockIdx && groupDepth > 0) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  function getSwapGroupInfo() {
+    // Find the swap group boundaries and inner blocks
+    const blocks = state.assemblyBlocks;
+    let startIdx = -1;
+    let endIdx = -1;
+
+    for (let i = 0; i < blocks.length; i++) {
+      if (blocks[i].type === 'swap-group-start' && startIdx === -1) {
+        startIdx = i;
+      }
+      if (blocks[i].type === 'swap-group-end' && startIdx !== -1 && endIdx === -1) {
+        endIdx = i;
+        break;
+      }
+    }
+
+    if (startIdx === -1 || endIdx === -1) return null;
+
+    // Get inner blocks (excluding markers)
+    const innerBlocks = blocks.slice(startIdx + 1, endIdx).filter(b => b.type !== 'swap-group-start' && b.type !== 'swap-group-end');
+    const k = innerBlocks.length;
+
+    return { startIdx, endIdx, innerBlocks, k };
+  }
+
+  function hasSwapGroup() {
+    return state.assemblyBlocks.some(b => b.type === 'swap-group-start') &&
+           state.assemblyBlocks.some(b => b.type === 'swap-group-end');
+  }
+
+  function getPermutations(arr) {
+    if (arr.length <= 1) return [arr];
+    const result = [];
+    for (let i = 0; i < arr.length; i++) {
+      const rest = [...arr.slice(0, i), ...arr.slice(i + 1)];
+      const perms = getPermutations(rest);
+      for (const perm of perms) {
+        result.push([arr[i], ...perm]);
+      }
+    }
+    return result;
+  }
+
+  function buildPermutedBlocks(permutation) {
+    // Given a permutation of inner blocks, reconstruct the full block list
+    const result = [];
+    const info = getSwapGroupInfo();
+    if (!info) return state.assemblyBlocks.filter(b => b.type !== 'swap-group-start' && b.type !== 'swap-group-end');
+
+    // Blocks before swap group
+    for (let i = 0; i < info.startIdx; i++) {
+      if (state.assemblyBlocks[i].type !== 'swap-group-start' && state.assemblyBlocks[i].type !== 'swap-group-end') {
+        result.push(state.assemblyBlocks[i]);
+      }
+    }
+
+    // Permuted inner blocks
+    result.push(...permutation);
+
+    // Blocks after swap group
+    for (let i = info.endIdx + 1; i < state.assemblyBlocks.length; i++) {
+      if (state.assemblyBlocks[i].type !== 'swap-group-start' && state.assemblyBlocks[i].type !== 'swap-group-end') {
+        result.push(state.assemblyBlocks[i]);
+      }
+    }
+
+    return result;
+  }
+
+  function renderCommandHtml(label, cmdResult) {
+    let html = '';
+    if (label) {
+      html += `<div class="command-card__label">${label}</div>`;
+    }
+    html += '<span class="cmd-prefix">mp64</span>';
+    cmdResult.charsetOptions.forEach(opt => {
       html += ` <span class="cmd-option">${escapeHtml(opt)}</span>`;
     });
-    if (incrementOption) {
-      html += ` <span class="cmd-option">${escapeHtml(incrementOption)}</span>`;
+    if (cmdResult.incrementOption) {
+      html += ` <span class="cmd-option">${escapeHtml(cmdResult.incrementOption)}</span>`;
     }
-    html += ` <span class="cmd-mask">${escapeHtml(mask)}</span>`;
+    html += ` <span class="cmd-mask">${escapeHtml(cmdResult.mask)}</span>`;
+    return html;
+  }
 
-    commandOutput.innerHTML = html;
+  function updateCommand() {
+    if (state.assemblyBlocks.length === 0) {
+      commandOutput.innerHTML = '<span class="command-card__empty">Add blocks to the assembly area to generate a command</span>';
+      calculateKeyspace();
+      return;
+    }
+
+    const hasGroup = hasSwapGroup();
+    const info = getSwapGroupInfo();
+
+    if (!hasGroup || !info || info.k < 2) {
+      // No swap group or not enough inner blocks - single command
+      const original = buildCommandFromBlocks(state.assemblyBlocks);
+      commandOutput.innerHTML = renderCommandHtml(null, original);
+    } else {
+      // Check k! limit
+      const totalPerms = factorial(info.k);
+
+      if (totalPerms > 720) {
+        commandOutput.innerHTML = `<span class="command-card__empty">Swap Group has ${info.k} blocks (${totalPerms} permutations) — too many to display. Reduce to 6 or fewer.</span>`;
+        calculateKeyspace();
+        return;
+      }
+
+      // Generate all permutations
+      const perms = getPermutations(info.innerBlocks);
+
+      // Original (first permutation = identity)
+      const originalBlocks = buildPermutedBlocks(perms[0]);
+      const original = buildCommandFromBlocks(originalBlocks);
+
+      let html = renderCommandHtml('Original', original);
+
+      // Swapped (remaining permutations)
+      for (let i = 1; i < perms.length; i++) {
+        const permBlocks = buildPermutedBlocks(perms[i]);
+        const permCmd = buildCommandFromBlocks(permBlocks);
+        html += '<hr class="command-card__divider">';
+        html += renderCommandHtml(`Swapped ${i}`, permCmd);
+      }
+
+      commandOutput.innerHTML = html;
+    }
+
     calculateKeyspace();
   }
 
@@ -1734,39 +2128,86 @@ body {
   }
 
   // ========== Keyspace Calculation ==========
+  function calculateKeyspaceForBlocks(blocks) {
+    let totalKeyspace = 1;
+    const blockSizes = [];
+
+    for (const block of blocks) {
+      let size = 1;
+      if (block.type === 'builtin') {
+        size = BUILTIN_CHARSET_SIZES[block.mask] || 1;
+      } else if (block.type === 'custom' && block.customChars) {
+        size = new Set(block.customChars).size;
+      } else if (block.type === 'swap-group-start' || block.type === 'swap-group-end') {
+        continue; // Skip swap group markers
+      }
+      blockSizes.push({ label: block.label, size });
+      totalKeyspace *= size;
+    }
+
+    return { totalKeyspace, blockSizes };
+  }
+
   function calculateKeyspace() {
     if (state.assemblyBlocks.length === 0) {
       keyspaceCard.innerHTML = '<span class="keyspace-card__empty">Add blocks to calculate keyspace</span>';
       return;
     }
 
-    let totalKeyspace = 1;
-    const blockSizes = [];
+    const hasGroup = hasSwapGroup();
+    const info = getSwapGroupInfo();
 
-    for (const block of state.assemblyBlocks) {
-      let size = 1;
-      if (block.type === 'builtin') {
-        size = BUILTIN_CHARSET_SIZES[block.mask] || 1;
-      } else if (block.type === 'custom' && block.customChars) {
-        // Count unique characters in custom charset
-        size = new Set(block.customChars).size;
-      } else if (block.type === 'static') {
-        size = 1; // static text is fixed, only 1 possibility
+    if (!hasGroup || !info || info.k < 2) {
+      // Single command keyspace
+      const result = calculateKeyspaceForBlocks(state.assemblyBlocks);
+      const formatted = formatLargeNumber(result.totalKeyspace);
+      const detail = result.blockSizes.map(b => `${b.label}: ${b.size.toLocaleString()}`).join(' × ');
+
+      keyspaceCard.innerHTML = `
+        <div style="flex:1;min-width:0">
+          <div class="keyspace-card__value">${formatted}</div>
+          <div class="keyspace-card__detail">${escapeHtml(detail)}</div>
+        </div>
+      `;
+    } else {
+      // Multiple permutation keyspaces
+      const totalPerms = factorial(info.k);
+
+      if (totalPerms > 720) {
+        keyspaceCard.innerHTML = '<span class="keyspace-card__empty">Too many permutations to calculate keyspace</span>';
+        return;
       }
-      blockSizes.push({ label: block.label, size });
-      totalKeyspace *= size;
+
+      const perms = getPermutations(info.innerBlocks);
+      let html = '';
+
+      // Original
+      const originalBlocks = buildPermutedBlocks(perms[0]);
+      const originalResult = calculateKeyspaceForBlocks(originalBlocks);
+      const originalFormatted = formatLargeNumber(originalResult.totalKeyspace);
+      const originalDetail = originalResult.blockSizes.map(b => `${b.label}: ${b.size.toLocaleString()}`).join(' × ');
+
+      html += `<div style="flex:1;min-width:0">
+        <div class="command-card__label">Original</div>
+        <div class="keyspace-card__value">${originalFormatted}</div>
+        <div class="keyspace-card__detail">${escapeHtml(originalDetail)}</div>
+      </div>`;
+
+      // Since all permutations use the same charsets (just in different order),
+      // they all have the same keyspace. Total = single × variant count.
+      const swappedVariantCount = perms.length - 1;
+      const totalSwappedKeyspace = originalResult.totalKeyspace * swappedVariantCount;
+      const swappedFormatted = formatLargeNumber(totalSwappedKeyspace);
+
+      html += `<div style="width:1px;background:var(--md-sys-color-outline-variant);align-self:stretch;margin:0 12px"></div>`;
+      html += `<div style="flex:1;min-width:0">
+        <div class="command-card__label">Swapped (${swappedVariantCount} variants)</div>
+        <div class="keyspace-card__value">${swappedFormatted}</div>
+        <div class="keyspace-card__detail">${originalFormatted} × ${swappedVariantCount} variants</div>
+      </div>`;
+
+      keyspaceCard.innerHTML = html;
     }
-
-    // Format large numbers
-    const formatted = formatLargeNumber(totalKeyspace);
-    const detail = blockSizes.map(b => `${b.label}: ${b.size.toLocaleString()}`).join(' × ');
-
-    keyspaceCard.innerHTML = `
-      <div style="flex:1;min-width:0">
-        <div class="keyspace-card__value">${formatted}</div>
-        <div class="keyspace-card__detail">${escapeHtml(detail)}</div>
-      </div>
-    `;
   }
 
   function formatLargeNumber(n) {
@@ -1788,34 +2229,23 @@ body {
       return;
     }
 
-    const maskParts = state.assemblyBlocks.map(b => b.mask);
-    const mask = maskParts.join('');
+    const hasGroup = hasSwapGroup();
+    const info = getSwapGroupInfo();
+    const commands = [];
 
-    const usedCustomIndices = new Set();
-    state.assemblyBlocks.forEach(b => {
-      if (b.type === 'custom' && b.customIndex) {
-        usedCustomIndices.add(b.customIndex);
+    if (!hasGroup || !info || info.k < 2) {
+      const original = buildCommandFromBlocks(state.assemblyBlocks);
+      commands.push(original.command);
+    } else {
+      const perms = getPermutations(info.innerBlocks);
+      for (let i = 0; i < perms.length; i++) {
+        const permBlocks = buildPermutedBlocks(perms[i]);
+        const cmd = buildCommandFromBlocks(permBlocks);
+        commands.push(cmd.command);
       }
-    });
-
-    const charsetOptions = [];
-    state.customCharsets.forEach(cs => {
-      if (usedCustomIndices.has(cs.index)) {
-        charsetOptions.push(`-${cs.index} ${cs.chars}`);
-      }
-    });
-
-    let incrementOption = '';
-    if (state.incrementEnabled) {
-      incrementOption = `-i ${state.incrementMin}:${state.incrementMax}`;
     }
 
-    const parts = ['mp64'];
-    charsetOptions.forEach(opt => parts.push(opt));
-    if (incrementOption) parts.push(incrementOption);
-    parts.push(mask);
-
-    const fullCommand = parts.join(' ');
+    const fullCommand = commands.join('\n');
 
     navigator.clipboard.writeText(fullCommand).then(() => {
       showSnackbar('Command copied to clipboard');
