@@ -2034,6 +2034,21 @@ body {
     return result;
   }
 
+  function getUniquePerms(innerBlocks) {
+    const perms = getPermutations(innerBlocks);
+    const seen = new Set();
+    const unique = [];
+    for (const perm of perms) {
+      const blocks = buildPermutedBlocks(perm);
+      const cmd = buildCommandFromBlocks(blocks);
+      if (!seen.has(cmd.command)) {
+        seen.add(cmd.command);
+        unique.push({ perm, cmd });
+      }
+    }
+    return unique;
+  }
+
   function buildPermutedBlocks(permutation) {
     // Given a permutation of inner blocks, reconstruct the full block list
     const result = [];
@@ -2077,9 +2092,11 @@ body {
   }
 
   function updateCommand() {
+    let cachedUniquePerms = null;
+
     if (state.assemblyBlocks.length === 0) {
       commandOutput.innerHTML = '<span class="command-card__empty">Add blocks to the assembly area to generate a command</span>';
-      calculateKeyspace();
+      calculateKeyspace(null);
       return;
     }
 
@@ -2096,31 +2113,26 @@ body {
 
       if (totalPerms > 720) {
         commandOutput.innerHTML = `<span class="command-card__empty">Swap Group has ${info.k} blocks (${totalPerms} permutations) — too many to display. Reduce to 6 or fewer.</span>`;
-        calculateKeyspace();
+        calculateKeyspace(null);
         return;
       }
 
-      // Generate all permutations
-      const perms = getPermutations(info.innerBlocks);
+      // Generate unique permutations (deduplicated by command string)
+      cachedUniquePerms = getUniquePerms(info.innerBlocks);
 
-      // Original (first permutation = identity)
-      const originalBlocks = buildPermutedBlocks(perms[0]);
-      const original = buildCommandFromBlocks(originalBlocks);
+      // Original (first unique permutation)
+      let html = renderCommandHtml('Original', cachedUniquePerms[0].cmd);
 
-      let html = renderCommandHtml('Original', original);
-
-      // Swapped (remaining permutations)
-      for (let i = 1; i < perms.length; i++) {
-        const permBlocks = buildPermutedBlocks(perms[i]);
-        const permCmd = buildCommandFromBlocks(permBlocks);
+      // Swapped (remaining unique permutations)
+      for (let i = 1; i < cachedUniquePerms.length; i++) {
         html += '<hr class="command-card__divider">';
-        html += renderCommandHtml(`Swapped ${i}`, permCmd);
+        html += renderCommandHtml(`Swapped ${i}`, cachedUniquePerms[i].cmd);
       }
 
       commandOutput.innerHTML = html;
     }
 
-    calculateKeyspace();
+    calculateKeyspace(cachedUniquePerms);
   }
 
   function escapeHtml(str) {
@@ -2148,7 +2160,7 @@ body {
     return { totalKeyspace, blockSizes };
   }
 
-  function calculateKeyspace() {
+  function calculateKeyspace(cachedUniquePerms) {
     if (state.assemblyBlocks.length === 0) {
       keyspaceCard.innerHTML = '<span class="keyspace-card__empty">Add blocks to calculate keyspace</span>';
       return;
@@ -2178,11 +2190,11 @@ body {
         return;
       }
 
-      const perms = getPermutations(info.innerBlocks);
+      const uniquePerms = cachedUniquePerms || getUniquePerms(info.innerBlocks);
       let html = '';
 
       // Original
-      const originalBlocks = buildPermutedBlocks(perms[0]);
+      const originalBlocks = buildPermutedBlocks(uniquePerms[0].perm);
       const originalResult = calculateKeyspaceForBlocks(originalBlocks);
       const originalFormatted = formatLargeNumber(originalResult.totalKeyspace);
       const originalDetail = originalResult.blockSizes.map(b => `${b.label}: ${b.size.toLocaleString()}`).join(' × ');
@@ -2193,20 +2205,31 @@ body {
         <div class="keyspace-card__detail">${escapeHtml(originalDetail)}</div>
       </div>`;
 
-      // Since all permutations use the same charsets (just in different order),
-      // they all have the same keyspace. Total = single × variant count.
-      const swappedVariantCount = perms.length - 1;
-      const totalSwappedKeyspace = originalResult.totalKeyspace * swappedVariantCount;
-      const swappedFormatted = formatLargeNumber(totalSwappedKeyspace);
+      // Since all unique permutations use the same charsets (just in different order),
+      // they all have the same keyspace. Total = single × unique variant count.
+      const swappedVariantCount = uniquePerms.length - 1;
 
-      html += `<div style="width:1px;background:var(--md-sys-color-outline-variant);align-self:stretch;margin:0 12px"></div>`;
-      html += `<div style="flex:1;min-width:0">
-        <div class="command-card__label">Swapped (${swappedVariantCount} variants)</div>
-        <div class="keyspace-card__value">${swappedFormatted}</div>
-        <div class="keyspace-card__detail">${originalFormatted} × ${swappedVariantCount} variants</div>
-      </div>`;
+      if (swappedVariantCount === 0) {
+        // All permutations are identical (e.g. [?d, ?d, ?d]) — no swapped variants
+        keyspaceCard.innerHTML = `
+          <div style="flex:1;min-width:0">
+            <div class="keyspace-card__value">${originalFormatted}</div>
+            <div class="keyspace-card__detail">${escapeHtml(originalDetail)}</div>
+          </div>
+        `;
+      } else {
+        const totalSwappedKeyspace = originalResult.totalKeyspace * swappedVariantCount;
+        const swappedFormatted = formatLargeNumber(totalSwappedKeyspace);
 
-      keyspaceCard.innerHTML = html;
+        html += `<div style="width:1px;background:var(--md-sys-color-outline-variant);align-self:stretch;margin:0 12px"></div>`;
+        html += `<div style="flex:1;min-width:0">
+          <div class="command-card__label">Swapped (${swappedVariantCount} variants)</div>
+          <div class="keyspace-card__value">${swappedFormatted}</div>
+          <div class="keyspace-card__detail">${originalFormatted} × ${swappedVariantCount} variants</div>
+        </div>`;
+
+        keyspaceCard.innerHTML = html;
+      }
     }
   }
 
@@ -2237,10 +2260,8 @@ body {
       const original = buildCommandFromBlocks(state.assemblyBlocks);
       commands.push(original.command);
     } else {
-      const perms = getPermutations(info.innerBlocks);
-      for (let i = 0; i < perms.length; i++) {
-        const permBlocks = buildPermutedBlocks(perms[i]);
-        const cmd = buildCommandFromBlocks(permBlocks);
+      const uniquePerms = getUniquePerms(info.innerBlocks);
+      for (const { cmd } of uniquePerms) {
         commands.push(cmd.command);
       }
     }
