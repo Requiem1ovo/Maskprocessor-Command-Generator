@@ -1,0 +1,1848 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MP64 Command Builder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<style>
+/* ========== MD3 Design Tokens ========== */
+:root {
+  /* Light theme colors */
+  --md-sys-color-primary: #6750A4;
+  --md-sys-color-on-primary: #FFFFFF;
+  --md-sys-color-primary-container: #EADDFF;
+  --md-sys-color-on-primary-container: #21005D;
+  --md-sys-color-secondary: #625B71;
+  --md-sys-color-on-secondary: #FFFFFF;
+  --md-sys-color-secondary-container: #E8DEF8;
+  --md-sys-color-on-secondary-container: #1D192B;
+  --md-sys-color-tertiary: #7D5260;
+  --md-sys-color-on-tertiary: #FFFFFF;
+  --md-sys-color-tertiary-container: #FFD8E4;
+  --md-sys-color-on-tertiary-container: #31111D;
+  --md-sys-color-error: #B3261E;
+  --md-sys-color-on-error: #FFFFFF;
+  --md-sys-color-error-container: #F9DEDC;
+  --md-sys-color-on-error-container: #410E0B;
+  --md-sys-color-surface: #FEF7FF;
+  --md-sys-color-on-surface: #1D1B20;
+  --md-sys-color-on-surface-variant: #49454F;
+  --md-sys-color-surface-container-lowest: #FFFFFF;
+  --md-sys-color-surface-container-low: #F7F2FA;
+  --md-sys-color-surface-container: #F3EDF7;
+  --md-sys-color-surface-container-high: #ECE6F0;
+  --md-sys-color-surface-container-highest: #E6E0E9;
+  --md-sys-color-outline: #79747E;
+  --md-sys-color-outline-variant: #CAC4D0;
+  --md-sys-color-inverse-surface: #322F35;
+  --md-sys-color-inverse-on-surface: #F5EFF7;
+
+  /* Typography */
+  --md-sys-typescale-display-large: 500 57px/64px 'Roboto Flex', sans-serif;
+  --md-sys-typescale-headline-large: 400 32px/40px 'Roboto Flex', sans-serif;
+  --md-sys-typescale-headline-medium: 500 28px/36px 'Roboto Flex', sans-serif;
+  --md-sys-typescale-headline-small: 500 24px/32px 'Roboto Flex', sans-serif;
+  --md-sys-typescale-title-large: 500 22px/28px 'Roboto Flex', sans-serif;
+  --md-sys-typescale-title-medium: 500 16px/24px 'Roboto Flex', sans-serif;
+  --md-sys-typescale-title-small: 500 14px/20px 'Roboto Flex', sans-serif;
+  --md-sys-typescale-body-large: 400 16px/24px 'Roboto Flex', sans-serif;
+  --md-sys-typescale-body-medium: 400 14px/20px 'Roboto Flex', sans-serif;
+  --md-sys-typescale-body-small: 400 12px/16px 'Roboto Flex', sans-serif;
+  --md-sys-typescale-label-large: 500 14px/20px 'Roboto Flex', sans-serif;
+  --md-sys-typescale-label-medium: 500 12px/16px 'Roboto Flex', sans-serif;
+  --md-sys-typescale-label-small: 500 11px/16px 'Roboto Flex', sans-serif;
+
+  /* Shape */
+  --md-sys-shape-corner-none: 0px;
+  --md-sys-shape-corner-extra-small: 4px;
+  --md-sys-shape-corner-small: 8px;
+  --md-sys-shape-corner-medium: 12px;
+  --md-sys-shape-corner-large: 16px;
+  --md-sys-shape-corner-extra-large: 28px;
+  --md-sys-shape-corner-full: 9999px;
+
+  /* Elevation */
+  --md-sys-elevation-0: none;
+  --md-sys-elevation-1: 0 1px 2px 0 rgba(0,0,0,0.3), 0 1px 3px 1px rgba(0,0,0,0.15);
+  --md-sys-elevation-2: 0 1px 2px 0 rgba(0,0,0,0.3), 0 2px 6px 2px rgba(0,0,0,0.15);
+  --md-sys-elevation-3: 0 4px 8px 3px rgba(0,0,0,0.15), 0 1px 3px 0 rgba(0,0,0,0.3);
+}
+
+/* Dark theme overrides */
+[data-theme="dark"] {
+  --md-sys-color-primary: #D0BCFF;
+  --md-sys-color-on-primary: #381E72;
+  --md-sys-color-primary-container: #4F378B;
+  --md-sys-color-on-primary-container: #EADDFF;
+  --md-sys-color-secondary: #CCC2DC;
+  --md-sys-color-on-secondary: #332D41;
+  --md-sys-color-secondary-container: #4A4458;
+  --md-sys-color-on-secondary-container: #E8DEF8;
+  --md-sys-color-tertiary: #EFB8C8;
+  --md-sys-color-on-tertiary: #492532;
+  --md-sys-color-tertiary-container: #633B48;
+  --md-sys-color-on-tertiary-container: #FFD8E4;
+  --md-sys-color-error: #F2B8B5;
+  --md-sys-color-on-error: #601410;
+  --md-sys-color-error-container: #8C1D18;
+  --md-sys-color-on-error-container: #F9DEDC;
+  --md-sys-color-surface: #141218;
+  --md-sys-color-on-surface: #E6E0E9;
+  --md-sys-color-on-surface-variant: #CAC4D0;
+  --md-sys-color-surface-container-lowest: #0F0D13;
+  --md-sys-color-surface-container-low: #1D1B20;
+  --md-sys-color-surface-container: #211F26;
+  --md-sys-color-surface-container-high: #2B2930;
+  --md-sys-color-surface-container-highest: #36343B;
+  --md-sys-color-outline: #938F99;
+  --md-sys-color-outline-variant: #49454F;
+  --md-sys-color-inverse-surface: #E6E0E9;
+  --md-sys-color-inverse-on-surface: #322F35;
+}
+
+/* ========== Reset & Base ========== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  font: var(--md-sys-typescale-body-large);
+  background-color: var(--md-sys-color-surface);
+  color: var(--md-sys-color-on-surface);
+  min-height: 100vh;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ========== Material Symbols ========== */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  user-select: none;
+}
+
+/* ========== Top App Bar ========== */
+.top-app-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: var(--md-sys-color-surface);
+  border-bottom: 1px solid var(--md-sys-color-outline-variant);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.top-app-bar__inner {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.github-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: var(--md-sys-shape-corner-full);
+  color: var(--md-sys-color-on-surface-variant);
+  text-decoration: none;
+  font: var(--md-sys-typescale-label-large);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.github-link:hover {
+  background-color: color-mix(in srgb, var(--md-sys-color-on-surface) 8%, transparent);
+  color: var(--md-sys-color-on-surface);
+}
+
+.github-link__icon {
+  flex-shrink: 0;
+}
+
+.top-app-bar__title {
+  font: var(--md-sys-typescale-title-large);
+  color: var(--md-sys-color-on-surface);
+}
+
+.top-app-bar__subtitle {
+  font: var(--md-sys-typescale-body-small);
+  color: var(--md-sys-color-on-surface-variant);
+  margin-top: 2px;
+}
+
+/* ========== Icon Button ========== */
+.md-icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--md-sys-shape-corner-full);
+  border: none;
+  background: transparent;
+  color: var(--md-sys-color-on-surface-variant);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: background-color 0.2s ease;
+}
+
+.md-icon-button:hover {
+  background-color: color-mix(in srgb, var(--md-sys-color-on-surface-variant) 8%, transparent);
+}
+
+.md-icon-button:active {
+  background-color: color-mix(in srgb, var(--md-sys-color-on-surface-variant) 12%, transparent);
+}
+
+.md-icon-button .material-symbols-outlined {
+  font-size: 24px;
+}
+
+/* ========== Main Layout ========== */
+.main-content {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.section {
+  margin-bottom: 24px;
+}
+
+.section__header {
+  font: var(--md-sys-typescale-title-medium);
+  color: var(--md-sys-color-on-surface);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.section__header .material-symbols-outlined {
+  font-size: 20px;
+  color: var(--md-sys-color-primary);
+}
+
+/* ========== Assist Chip (Built-in Charsets) ========== */
+.charset-chips {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 8px;
+}
+
+.charset-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.charset-item__hint {
+  font: var(--md-sys-typescale-body-small);
+  font-family: 'Roboto Mono', monospace;
+  color: var(--md-sys-color-on-surface-variant);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0 16px 4px;
+  opacity: 0.7;
+}
+
+.md-assist-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 32px;
+  padding: 0 16px;
+  border-radius: var(--md-sys-shape-corner-small);
+  border: 1px solid var(--md-sys-color-outline);
+  background-color: transparent;
+  color: var(--md-sys-color-on-surface);
+  font: var(--md-sys-typescale-label-large);
+  cursor: grab;
+  transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  user-select: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.md-assist-chip:active {
+  cursor: grabbing;
+}
+
+.md-assist-chip:hover {
+  background-color: color-mix(in srgb, var(--md-sys-color-on-surface) 8%, transparent);
+}
+
+.md-assist-chip:active {
+  background-color: color-mix(in srgb, var(--md-sys-color-on-surface) 12%, transparent);
+}
+
+.md-assist-chip:focus-visible {
+  outline: 2px solid var(--md-sys-color-primary);
+  outline-offset: -2px;
+}
+
+.md-assist-chip__placeholder {
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 500;
+  color: var(--md-sys-color-primary);
+}
+
+.md-assist-chip__label {
+  color: var(--md-sys-color-on-surface);
+}
+
+/* Custom charset chips - tertiary color */
+.md-assist-chip--custom {
+  border-color: var(--md-sys-color-tertiary);
+  background-color: color-mix(in srgb, var(--md-sys-color-tertiary-container) 40%, transparent);
+}
+
+.md-assist-chip--custom:hover {
+  background-color: color-mix(in srgb, var(--md-sys-color-tertiary-container) 70%, transparent);
+}
+
+.md-assist-chip--custom .md-assist-chip__placeholder {
+  color: var(--md-sys-color-tertiary);
+}
+
+.md-assist-chip--custom .md-assist-chip__label {
+  color: var(--md-sys-color-on-tertiary-container);
+}
+
+/* Custom charset chip wrapper with delete */
+.custom-chip-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+}
+
+.custom-chip-wrapper .md-assist-chip--custom {
+  border-radius: var(--md-sys-shape-corner-small) 0 0 var(--md-sys-shape-corner-small);
+  border-right: none;
+}
+
+.custom-chip-delete {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 32px;
+  border-radius: 0 var(--md-sys-shape-corner-small) var(--md-sys-shape-corner-small) 0;
+  border: 1px solid var(--md-sys-color-tertiary);
+  border-left: none;
+  background-color: color-mix(in srgb, var(--md-sys-color-tertiary-container) 40%, transparent);
+  color: var(--md-sys-color-on-tertiary-container);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  padding: 0;
+}
+
+.custom-chip-delete:hover {
+  background-color: color-mix(in srgb, var(--md-sys-color-tertiary-container) 70%, transparent);
+}
+
+.custom-chip-delete .material-symbols-outlined {
+  font-size: 16px;
+}
+
+/* ========== Filled Tonal Button ========== */
+.md-filled-tonal-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 24px;
+  border-radius: var(--md-sys-shape-corner-full);
+  border: none;
+  background-color: var(--md-sys-color-secondary-container);
+  color: var(--md-sys-color-on-secondary-container);
+  font: var(--md-sys-typescale-label-large);
+  cursor: pointer;
+  transition: box-shadow 0.2s ease, background-color 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.md-filled-tonal-button:hover {
+  box-shadow: var(--md-sys-elevation-1);
+  background-color: color-mix(in srgb, var(--md-sys-color-on-secondary-container) 8%, var(--md-sys-color-secondary-container));
+}
+
+.md-filled-tonal-button:active {
+  box-shadow: none;
+}
+
+.md-filled-tonal-button:focus-visible {
+  outline: 2px solid var(--md-sys-color-primary);
+  outline-offset: 2px;
+}
+
+.md-filled-tonal-button .material-symbols-outlined {
+  font-size: 18px;
+}
+
+/* ========== Assembly Area ========== */
+.assembly-card {
+  background-color: var(--md-sys-color-surface-container-low);
+  border-radius: var(--md-sys-shape-corner-large);
+  border: 2px dashed var(--md-sys-color-outline-variant);
+  padding: 16px;
+  min-height: 120px;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.assembly-card--has-items {
+  border-style: solid;
+  border-color: var(--md-sys-color-outline-variant);
+  background-color: var(--md-sys-color-surface-container);
+}
+
+.assembly-card.drag-active {
+  border-color: var(--md-sys-color-primary);
+  background-color: color-mix(in srgb, var(--md-sys-color-primary) 5%, var(--md-sys-color-surface-container-low));
+}
+
+.assembly-blocks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-height: 40px;
+  align-items: center;
+  justify-content: center;
+}
+
+.assembly-blocks--has-items {
+  justify-content: flex-start;
+}
+
+.assembly-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 24px;
+  color: var(--md-sys-color-on-surface-variant);
+  text-align: center;
+}
+
+.assembly-empty .material-symbols-outlined {
+  font-size: 40px;
+  opacity: 0.5;
+}
+
+.assembly-empty__text {
+  font: var(--md-sys-typescale-body-medium);
+}
+
+/* ========== Input Chip (Assembly Blocks) ========== */
+.md-input-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 32px;
+  padding: 0 4px 0 12px;
+  border-radius: var(--md-sys-shape-corner-small);
+  border: 1px solid var(--md-sys-color-outline);
+  background-color: color-mix(in srgb, var(--md-sys-color-primary) 12%, transparent);
+  color: var(--md-sys-color-on-surface);
+  font: var(--md-sys-typescale-label-large);
+  cursor: grab;
+  transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease, opacity 0.15s ease;
+  user-select: none;
+  animation: chipEnter 0.2s ease forwards;
+}
+
+.md-input-chip:hover {
+  background-color: color-mix(in srgb, var(--md-sys-color-primary) 20%, transparent);
+}
+
+.md-input-chip:active {
+  cursor: grabbing;
+}
+
+.md-input-chip.dragging {
+  opacity: 0.5;
+  transform: scale(0.95);
+}
+
+/* Drop indicator between blocks */
+.drop-indicator {
+  width: 4px;
+  min-height: 32px;
+  border-radius: 2px;
+  background-color: var(--md-sys-color-primary);
+  flex-shrink: 0;
+  transition: opacity 0.15s ease;
+  opacity: 0;
+}
+
+.drop-indicator.visible {
+  opacity: 1;
+}
+
+.md-input-chip--custom {
+  background-color: color-mix(in srgb, var(--md-sys-color-tertiary) 12%, transparent);
+  border-color: var(--md-sys-color-tertiary);
+}
+
+.md-input-chip--custom:hover {
+  background-color: color-mix(in srgb, var(--md-sys-color-tertiary) 20%, transparent);
+}
+
+.md-input-chip--static {
+  background-color: color-mix(in srgb, var(--md-sys-color-secondary) 12%, transparent);
+  border-color: var(--md-sys-color-secondary);
+}
+
+.md-input-chip--static:hover {
+  background-color: color-mix(in srgb, var(--md-sys-color-secondary) 20%, transparent);
+}
+
+.md-input-chip__text {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.md-input-chip__delete {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--md-sys-shape-corner-full);
+  border: none;
+  background: transparent;
+  color: var(--md-sys-color-on-surface-variant);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  padding: 0;
+}
+
+.md-input-chip__delete:hover {
+  background-color: color-mix(in srgb, var(--md-sys-color-on-surface-variant) 12%, transparent);
+}
+
+.md-input-chip__delete .material-symbols-outlined {
+  font-size: 16px;
+}
+
+/* ========== Static Text Input Row ========== */
+.static-input-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--md-sys-color-outline-variant);
+}
+
+/* ========== Outlined Text Field ========== */
+.md-outlined-text-field {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+}
+
+.md-outlined-text-field__input {
+  width: 100%;
+  height: 48px;
+  padding: 8px 16px;
+  border-radius: var(--md-sys-shape-corner-extra-small);
+  border: 1px solid var(--md-sys-color-outline);
+  background: transparent;
+  color: var(--md-sys-color-on-surface);
+  font: var(--md-sys-typescale-body-large);
+  font-family: 'Roboto Mono', monospace;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.md-outlined-text-field__input:hover {
+  border-color: var(--md-sys-color-on-surface);
+}
+
+.md-outlined-text-field__input:focus {
+  border-color: var(--md-sys-color-primary);
+  border-width: 2px;
+  padding: 7px 15px;
+}
+
+.md-outlined-text-field__input::placeholder {
+  color: var(--md-sys-color-on-surface-variant);
+}
+
+/* Small variant for min/max */
+.md-outlined-text-field--small {
+  flex: 0 0 80px;
+}
+
+.md-outlined-text-field--small .md-outlined-text-field__input {
+  height: 40px;
+  text-align: center;
+  font: var(--md-sys-typescale-body-medium);
+}
+
+/* ========== Filled Button ========== */
+.md-filled-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 24px;
+  border-radius: var(--md-sys-shape-corner-full);
+  border: none;
+  background-color: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+  font: var(--md-sys-typescale-label-large);
+  cursor: pointer;
+  transition: box-shadow 0.2s ease, background-color 0.2s ease;
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.md-filled-button:hover {
+  box-shadow: var(--md-sys-elevation-1);
+  background-color: color-mix(in srgb, var(--md-sys-color-on-primary) 8%, var(--md-sys-color-primary));
+}
+
+.md-filled-button:active {
+  box-shadow: none;
+}
+
+.md-filled-button:focus-visible {
+  outline: 2px solid var(--md-sys-color-primary);
+  outline-offset: 2px;
+}
+
+.md-filled-button .material-symbols-outlined {
+  font-size: 18px;
+}
+
+/* ========== MD3 Switch ========== */
+.md-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.md-switch__track {
+  position: relative;
+  width: 52px;
+  height: 32px;
+  border-radius: var(--md-sys-shape-corner-full);
+  background-color: var(--md-sys-color-surface-container-highest);
+  border: 2px solid var(--md-sys-color-outline);
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+  flex-shrink: 0;
+}
+
+.md-switch__thumb {
+  position: absolute;
+  top: 50%;
+  left: 6px;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  border-radius: var(--md-sys-shape-corner-full);
+  background-color: var(--md-sys-color-outline);
+  transition: transform 0.2s ease, background-color 0.2s ease, width 0.2s ease, height 0.2s ease, left 0.2s ease;
+}
+
+.md-switch input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.md-switch input:checked + .md-switch__track {
+  background-color: var(--md-sys-color-primary);
+  border-color: var(--md-sys-color-primary);
+}
+
+.md-switch input:checked + .md-switch__track .md-switch__thumb {
+  transform: translateY(-50%) translateX(20px);
+  background-color: var(--md-sys-color-on-primary);
+  width: 24px;
+  height: 24px;
+  left: 2px;
+}
+
+.md-switch input:focus-visible + .md-switch__track {
+  outline: 2px solid var(--md-sys-color-primary);
+  outline-offset: 2px;
+}
+
+.md-switch__label {
+  font: var(--md-sys-typescale-label-large);
+  color: var(--md-sys-color-on-surface);
+}
+
+/* ========== Options Row ========== */
+.options-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+}
+
+.increment-fields {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: opacity 0.3s ease, max-height 0.3s ease;
+}
+
+.increment-fields.visible {
+  opacity: 1;
+  max-height: 60px;
+}
+
+.increment-fields__separator {
+  font: var(--md-sys-typescale-label-large);
+  color: var(--md-sys-color-on-surface-variant);
+}
+
+/* ========== Command Card ========== */
+.command-card {
+  background-color: var(--md-sys-color-surface-container-low);
+  border-radius: var(--md-sys-shape-corner-large);
+  padding: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.command-card__code {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 14px;
+  line-height: 24px;
+  color: var(--md-sys-color-on-surface);
+  word-break: break-all;
+  white-space: pre-wrap;
+  min-height: 24px;
+}
+
+.command-card__code .cmd-prefix {
+  color: var(--md-sys-color-primary);
+  font-weight: 500;
+}
+
+.command-card__code .cmd-option {
+  color: var(--md-sys-color-tertiary);
+}
+
+.command-card__code .cmd-mask {
+  color: var(--md-sys-color-secondary);
+}
+
+.command-card__empty {
+  color: var(--md-sys-color-on-surface-variant);
+  font: var(--md-sys-typescale-body-medium);
+  font-style: italic;
+}
+
+.command-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 12px;
+}
+
+/* ========== Keyspace ========== */
+.keyspace-card {
+  background-color: var(--md-sys-color-surface-container-low);
+  border-radius: var(--md-sys-shape-corner-large);
+  padding: 16px;
+  transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.keyspace-card__value {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--md-sys-color-primary);
+  word-break: break-all;
+}
+
+.keyspace-card__detail {
+  font: var(--md-sys-typescale-body-small);
+  color: var(--md-sys-color-on-surface-variant);
+  margin-top: 4px;
+}
+
+.keyspace-card__empty {
+  color: var(--md-sys-color-on-surface-variant);
+  font: var(--md-sys-typescale-body-medium);
+  font-style: italic;
+}
+
+/* ========== Dialog ========== */
+.md-dialog-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0,0,0,0.4);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.md-dialog-overlay.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.md-dialog {
+  background-color: var(--md-sys-color-surface-container-high);
+  border-radius: var(--md-sys-shape-corner-extra-large);
+  padding: 24px;
+  min-width: 280px;
+  max-width: 560px;
+  width: calc(100% - 48px);
+  box-shadow: var(--md-sys-elevation-3);
+  transform: scale(0.9);
+  transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+.md-dialog-overlay.visible .md-dialog {
+  transform: scale(1);
+}
+
+.md-dialog__title {
+  font: var(--md-sys-typescale-headline-small);
+  color: var(--md-sys-color-on-surface);
+  margin-bottom: 16px;
+}
+
+.md-dialog__content {
+  margin-bottom: 24px;
+}
+
+.md-dialog__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+/* Text Button */
+.md-text-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 12px;
+  border-radius: var(--md-sys-shape-corner-full);
+  border: none;
+  background: transparent;
+  color: var(--md-sys-color-primary);
+  font: var(--md-sys-typescale-label-large);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  white-space: nowrap;
+}
+
+.md-text-button:hover {
+  background-color: color-mix(in srgb, var(--md-sys-color-primary) 8%, transparent);
+}
+
+.md-text-button:focus-visible {
+  outline: 2px solid var(--md-sys-color-primary);
+  outline-offset: 2px;
+}
+
+/* ========== Snackbar ========== */
+.md-snackbar {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background-color: var(--md-sys-color-inverse-surface);
+  color: var(--md-sys-color-inverse-on-surface);
+  font: var(--md-sys-typescale-body-medium);
+  padding: 12px 16px;
+  border-radius: var(--md-sys-shape-corner-extra-small);
+  box-shadow: var(--md-sys-elevation-3);
+  z-index: 300;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  max-width: calc(100% - 48px);
+  text-align: center;
+}
+
+.md-snackbar.visible {
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ========== Custom charset row ========== */
+.custom-charset-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Custom charset chips use inline flex, not grid */
+#customChips.charset-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* ========== Responsive ========== */
+@media (max-width: 600px) {
+  .top-app-bar__inner {
+    padding: 8px 12px;
+  }
+
+  .main-content {
+    padding: 12px;
+  }
+
+  .md-assist-chip {
+    height: 36px;
+    padding: 0 12px;
+  }
+
+  .md-input-chip {
+    height: 36px;
+  }
+
+  .md-input-chip__delete {
+    width: 28px;
+    height: 28px;
+  }
+
+  .md-input-chip__delete .material-symbols-outlined {
+    font-size: 18px;
+  }
+
+  .static-input-row {
+    flex-wrap: wrap;
+  }
+
+  .options-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .increment-fields {
+    width: 100%;
+  }
+}
+
+/* ========== Animations ========== */
+@keyframes chipEnter {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- Top App Bar -->
+<header class="top-app-bar">
+  <div class="top-app-bar__inner">
+    <div>
+      <div class="top-app-bar__title">MP64 Command Builder</div>
+      <div class="top-app-bar__subtitle">maskprocessor command generator</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:4px;">
+      <a class="github-link" href="https://github.com/Requiem1ovo/Maskprocessor-Command-Generator/" target="_blank" rel="noopener noreferrer">
+        <svg class="github-link__icon" viewBox="0 0 16 16" width="20" height="20"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        <span class="github-link__label">GitHub</span>
+      </a>
+      <button class="md-icon-button" id="themeToggle" aria-label="Toggle theme">
+        <span class="material-symbols-outlined" id="themeIcon">dark_mode</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main class="main-content">
+
+  <!-- Built-in Charsets -->
+  <section class="section">
+    <div class="section__header">
+      <span class="material-symbols-outlined">brick</span>
+      Built-in Charsets
+    </div>
+    <div class="charset-chips" id="builtinChips">
+      <div class="charset-item">
+        <button class="md-assist-chip" data-charset="?l" data-type="builtin" draggable="true" title="?l Lowercase">
+          <span class="md-assist-chip__placeholder">?l</span>
+          <span class="md-assist-chip__label">Lowercase</span>
+        </button>
+        <span class="charset-item__hint">abcdefghijklmnopqrstuvwxyz</span>
+      </div>
+      <div class="charset-item">
+        <button class="md-assist-chip" data-charset="?u" data-type="builtin" draggable="true" title="?u Uppercase">
+          <span class="md-assist-chip__placeholder">?u</span>
+          <span class="md-assist-chip__label">Uppercase</span>
+        </button>
+        <span class="charset-item__hint">ABCDEFGHIJKLMNOPQRSTUVWXYZ</span>
+      </div>
+      <div class="charset-item">
+        <button class="md-assist-chip" data-charset="?d" data-type="builtin" draggable="true" title="?d Digits">
+          <span class="md-assist-chip__placeholder">?d</span>
+          <span class="md-assist-chip__label">Digits</span>
+        </button>
+        <span class="charset-item__hint">0123456789</span>
+      </div>
+      <div class="charset-item">
+        <button class="md-assist-chip" data-charset="?s" data-type="builtin" draggable="true" title="?s Special">
+          <span class="md-assist-chip__placeholder">?s</span>
+          <span class="md-assist-chip__label">Special</span>
+        </button>
+        <span class="charset-item__hint">«space»!"#$%&amp;'()*+,-./:;&lt;=&gt;?@[]^_`{|}~</span>
+      </div>
+      <div class="charset-item">
+        <button class="md-assist-chip" data-charset="?a" data-type="builtin" draggable="true" title="?a All">
+          <span class="md-assist-chip__placeholder">?a</span>
+          <span class="md-assist-chip__label">All</span>
+        </button>
+        <span class="charset-item__hint">?l?u?d?s</span>
+      </div>
+      <div class="charset-item">
+        <button class="md-assist-chip" data-charset="?b" data-type="builtin" draggable="true" title="?b Binary">
+          <span class="md-assist-chip__placeholder">?b</span>
+          <span class="md-assist-chip__label">Binary</span>
+        </button>
+        <span class="charset-item__hint">0x00 - 0xff</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Custom Charsets -->
+  <section class="section">
+    <div class="section__header">
+      <span class="material-symbols-outlined">tune</span>
+      Custom Charsets
+    </div>
+    <div class="custom-charset-row">
+      <div class="charset-chips" id="customChips"></div>
+      <button class="md-filled-tonal-button" id="addCustomCharsetBtn">
+        <span class="material-symbols-outlined">add</span>
+        Add Custom Charset
+      </button>
+    </div>
+  </section>
+
+  <!-- Assembly Area -->
+  <section class="section">
+    <div class="section__header">
+      <span class="material-symbols-outlined">construction</span>
+      Assembly Area
+    </div>
+    <div class="assembly-card" id="assemblyCard">
+      <div class="assembly-blocks" id="assemblyBlocks">
+        <div class="assembly-empty" id="assemblyEmpty">
+          <span class="material-symbols-outlined">touch_app</span>
+          <span class="assembly-empty__text">Click or drag charset blocks above to start building your mask</span>
+        </div>
+      </div>
+      <div class="static-input-row">
+        <div class="md-outlined-text-field">
+          <input type="text" class="md-outlined-text-field__input" id="staticTextInput" placeholder="Type static text (e.g. password)" autocomplete="off">
+        </div>
+        <button class="md-filled-tonal-button" id="addStaticBtn">
+          <span class="material-symbols-outlined">add</span>
+          Add
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Options -->
+  <section class="section">
+    <div class="section__header">
+      <span class="material-symbols-outlined">settings</span>
+      Options
+    </div>
+    <div class="options-row">
+      <label class="md-switch">
+        <input type="checkbox" id="incrementSwitch">
+        <span class="md-switch__track">
+          <span class="md-switch__thumb"></span>
+        </span>
+        <span class="md-switch__label">Increment mode</span>
+      </label>
+      <div class="increment-fields" id="incrementFields">
+        <div class="md-outlined-text-field md-outlined-text-field--small">
+          <input type="number" class="md-outlined-text-field__input" id="incrementMin" placeholder="Min" min="1" value="1">
+        </div>
+        <span class="increment-fields__separator">:</span>
+        <div class="md-outlined-text-field md-outlined-text-field--small">
+          <input type="number" class="md-outlined-text-field__input" id="incrementMax" placeholder="Max" min="1" value="8">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Generated Command -->
+  <section class="section">
+    <div class="section__header">
+      <span class="material-symbols-outlined">terminal</span>
+      Generated Command
+    </div>
+    <div class="command-card">
+      <div class="command-card__code" id="commandOutput">
+        <span class="command-card__empty">Add blocks to the assembly area to generate a command</span>
+      </div>
+      <div class="command-actions">
+        <button class="md-filled-button" id="copyBtn">
+          <span class="material-symbols-outlined">content_copy</span>
+          Copy Command
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Keyspace -->
+  <section class="section">
+    <div class="section__header">
+      <span class="material-symbols-outlined">calculate</span>
+      Keyspace
+    </div>
+    <div class="keyspace-card" id="keyspaceCard">
+      <span class="keyspace-card__empty">Add blocks to calculate keyspace</span>
+    </div>
+  </section>
+
+</main>
+
+<!-- Custom Charset Dialog -->
+<div class="md-dialog-overlay" id="customCharsetDialog">
+  <div class="md-dialog" role="dialog" aria-labelledby="dialogTitle">
+    <div class="md-dialog__title" id="dialogTitle">Add Custom Charset</div>
+    <div class="md-dialog__content">
+      <div class="md-outlined-text-field" style="width:100%">
+        <input type="text" class="md-outlined-text-field__input" id="customCharsetInput" placeholder="Enter custom characters (e.g. abc123)" autocomplete="off">
+      </div>
+    </div>
+    <div class="md-dialog__actions">
+      <button class="md-text-button" id="dialogCancelBtn">Cancel</button>
+      <button class="md-filled-button" id="dialogAddBtn">Add</button>
+    </div>
+  </div>
+</div>
+
+<!-- Snackbar -->
+<div class="md-snackbar" id="snackbar"></div>
+
+<script>
+(function() {
+  'use strict';
+
+  // ========== State ==========
+  const state = {
+    assemblyBlocks: [],   // { id, type, mask, label, customIndex?, customChars? }
+    customCharsets: [],   // { index: 1-4, chars }
+    nextBlockId: 1,
+    incrementEnabled: false,
+    incrementMin: 1,
+    incrementMax: 8
+  };
+
+  const BUILTIN_CHARSETS = {
+    '?l': 'Lowercase',
+    '?u': 'Uppercase',
+    '?d': 'Digits',
+    '?s': 'Special',
+    '?a': 'All',
+    '?b': 'Binary'
+  };
+
+  const BUILTIN_CHARSET_SIZES = {
+    '?l': 26,
+    '?u': 26,
+    '?d': 10,
+    '?s': 33,
+    '?a': 95,
+    '?b': 256
+  };
+
+  // ========== DOM References ==========
+  const $ = (sel) => document.querySelector(sel);
+  const builtinChips = $('#builtinChips');
+  const customChips = $('#customChips');
+  const addCustomCharsetBtn = $('#addCustomCharsetBtn');
+  const assemblyCard = $('#assemblyCard');
+  const assemblyBlocks = $('#assemblyBlocks');
+  const assemblyEmpty = $('#assemblyEmpty');
+  const staticTextInput = $('#staticTextInput');
+  const addStaticBtn = $('#addStaticBtn');
+  const incrementSwitch = $('#incrementSwitch');
+  const incrementFields = $('#incrementFields');
+  const incrementMinInput = $('#incrementMin');
+  const incrementMaxInput = $('#incrementMax');
+  const commandOutput = $('#commandOutput');
+  const copyBtn = $('#copyBtn');
+  const keyspaceCard = $('#keyspaceCard');
+  const themeToggle = $('#themeToggle');
+  const themeIcon = $('#themeIcon');
+  const customCharsetDialog = $('#customCharsetDialog');
+  const customCharsetInput = $('#customCharsetInput');
+  const dialogCancelBtn = $('#dialogCancelBtn');
+  const dialogAddBtn = $('#dialogAddBtn');
+  const snackbar = $('#snackbar');
+
+  // ========== Theme ==========
+  function initTheme() {
+    const saved = localStorage.getItem('mp64-theme');
+    if (saved === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      themeIcon.textContent = 'light_mode';
+    }
+  }
+
+  themeToggle.addEventListener('click', () => {
+    const current = document.documentElement.getAttribute('data-theme');
+    const next = current === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('mp64-theme', next);
+    themeIcon.textContent = next === 'dark' ? 'light_mode' : 'dark_mode';
+  });
+
+  // ========== Snackbar ==========
+  let snackbarTimeout;
+  function showSnackbar(message) {
+    snackbar.textContent = message;
+    snackbar.classList.add('visible');
+    clearTimeout(snackbarTimeout);
+    snackbarTimeout = setTimeout(() => {
+      snackbar.classList.remove('visible');
+    }, 2500);
+  }
+
+  // ========== Custom Charset Dialog ==========
+  function openDialog() {
+    customCharsetInput.value = '';
+    customCharsetDialog.classList.add('visible');
+    setTimeout(() => customCharsetInput.focus(), 200);
+  }
+
+  function closeDialog() {
+    customCharsetDialog.classList.remove('visible');
+  }
+
+  addCustomCharsetBtn.addEventListener('click', () => {
+    if (state.customCharsets.length >= 4) {
+      showSnackbar('Maximum of 4 custom charsets reached');
+      return;
+    }
+    openDialog();
+  });
+
+  dialogCancelBtn.addEventListener('click', closeDialog);
+  customCharsetDialog.addEventListener('click', (e) => {
+    if (e.target === customCharsetDialog) closeDialog();
+  });
+
+  dialogAddBtn.addEventListener('click', addCustomCharset);
+  customCharsetInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') addCustomCharset();
+    if (e.key === 'Escape') closeDialog();
+  });
+
+  function addCustomCharset() {
+    const chars = customCharsetInput.value.trim();
+    if (!chars) return;
+    if (state.customCharsets.length >= 4) {
+      showSnackbar('Maximum of 4 custom charsets reached');
+      closeDialog();
+      return;
+    }
+
+    const index = state.customCharsets.length + 1;
+    const customCharset = { index, chars };
+    state.customCharsets.push(customCharset);
+
+    // Add chip to custom charset panel
+    renderCustomChips();
+
+    // Auto-add to assembly area
+    addBlockToAssembly('custom', `?${index}`, `?${index}:${truncate(chars, 8)}`, index, chars);
+
+    closeDialog();
+    updateCommand();
+  }
+
+  function truncate(str, maxLen) {
+    return str.length > maxLen ? str.substring(0, maxLen) + '…' : str;
+  }
+
+  function renderCustomChips() {
+    customChips.innerHTML = '';
+    state.customCharsets.forEach((cs) => {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'custom-chip-wrapper';
+
+      const chip = document.createElement('button');
+      chip.className = 'md-assist-chip md-assist-chip--custom';
+      chip.dataset.charset = `?${cs.index}`;
+      chip.dataset.type = 'custom';
+      chip.dataset.customIndex = cs.index;
+      chip.draggable = true;
+      chip.title = `?${cs.index} ${cs.chars}`;
+      chip.innerHTML = `
+        <span class="md-assist-chip__placeholder">?${cs.index}</span>
+        <span class="md-assist-chip__label">${truncate(cs.chars, 10)}</span>
+      `;
+      chip.addEventListener('click', () => {
+        addBlockToAssembly('custom', `?${cs.index}`, `?${cs.index}:${truncate(cs.chars, 8)}`, cs.index, cs.chars);
+        updateCommand();
+      });
+      chip.addEventListener('dragstart', (e) => {
+        e.dataTransfer.effectAllowed = 'copy';
+        e.dataTransfer.setData('application/json', JSON.stringify({
+          source: 'charset-panel',
+          type: 'custom',
+          mask: `?${cs.index}`,
+          label: `?${cs.index}:${truncate(cs.chars, 8)}`,
+          customIndex: cs.index,
+          customChars: cs.chars
+        }));
+      });
+
+      const deleteBtn = document.createElement('button');
+      deleteBtn.className = 'custom-chip-delete';
+      deleteBtn.title = 'Delete custom charset';
+      deleteBtn.innerHTML = '<span class="material-symbols-outlined">close</span>';
+      deleteBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        removeCustomCharset(cs.index);
+      });
+
+      wrapper.appendChild(chip);
+      wrapper.appendChild(deleteBtn);
+      customChips.appendChild(wrapper);
+    });
+  }
+
+  function removeCustomCharset(index) {
+    // Remove from customCharsets
+    state.customCharsets = state.customCharsets.filter(cs => cs.index !== index);
+
+    // Remove all assembly blocks using this charset
+    state.assemblyBlocks = state.assemblyBlocks.filter(b => b.customIndex !== index);
+
+    // Re-number remaining custom charsets to keep -1, -2, -3, -4 consecutive
+    const oldToNew = {};
+    state.customCharsets.forEach((cs, i) => {
+      const newIndex = i + 1;
+      oldToNew[cs.index] = newIndex;
+      cs.index = newIndex;
+    });
+
+    // Update assembly blocks that reference renumbered charsets
+    state.assemblyBlocks.forEach(b => {
+      if (b.type === 'custom' && b.customIndex && oldToNew[b.customIndex] !== undefined) {
+        const newIndex = oldToNew[b.customIndex];
+        const cs = state.customCharsets.find(c => c.index === newIndex);
+        b.customIndex = newIndex;
+        b.mask = `?${newIndex}`;
+        b.label = `?${newIndex}:${truncate(cs.chars, 8)}`;
+      }
+    });
+
+    renderCustomChips();
+    renderAssembly();
+    updateCommand();
+  }
+
+  // ========== Built-in Charset Clicks & Drag ==========
+  builtinChips.addEventListener('click', (e) => {
+    const chip = e.target.closest('.md-assist-chip');
+    if (!chip) return;
+    const charset = chip.dataset.charset;
+    const label = BUILTIN_CHARSETS[charset] || charset;
+    addBlockToAssembly('builtin', charset, `${charset} ${label}`);
+    updateCommand();
+  });
+
+  // Drag from built-in chips
+  builtinChips.addEventListener('dragstart', (e) => {
+    const chip = e.target.closest('.md-assist-chip');
+    if (!chip) return;
+    const charset = chip.dataset.charset;
+    const label = BUILTIN_CHARSETS[charset] || charset;
+    e.dataTransfer.effectAllowed = 'copy';
+    e.dataTransfer.setData('application/json', JSON.stringify({
+      source: 'charset-panel',
+      type: 'builtin',
+      mask: charset,
+      label: `${charset} ${label}`
+    }));
+  });
+
+  // ========== Assembly Area ==========
+  function addBlockToAssembly(type, mask, label, customIndex, customChars) {
+    const block = {
+      id: state.nextBlockId++,
+      type,
+      mask,
+      label,
+      customIndex: customIndex || null,
+      customChars: customChars || null
+    };
+    state.assemblyBlocks.push(block);
+    renderAssembly();
+  }
+
+  function removeBlockFromAssembly(id) {
+    state.assemblyBlocks = state.assemblyBlocks.filter(b => b.id !== id);
+    renderAssembly();
+    updateCommand();
+  }
+
+  function renderAssembly() {
+    assemblyBlocks.innerHTML = '';
+
+    if (state.assemblyBlocks.length === 0) {
+      assemblyCard.classList.remove('assembly-card--has-items');
+      assemblyBlocks.classList.remove('assembly-blocks--has-items');
+      const empty = document.createElement('div');
+      empty.className = 'assembly-empty';
+      empty.id = 'assemblyEmpty';
+      empty.innerHTML = `
+        <span class="material-symbols-outlined">touch_app</span>
+        <span class="assembly-empty__text">Click or drag charset blocks above to start building your mask</span>
+      `;
+      assemblyBlocks.appendChild(empty);
+      return;
+    }
+
+    assemblyCard.classList.add('assembly-card--has-items');
+    assemblyBlocks.classList.add('assembly-blocks--has-items');
+
+    state.assemblyBlocks.forEach((block, idx) => {
+      // Drop indicator before this block
+      const indicator = document.createElement('div');
+      indicator.className = 'drop-indicator';
+      assemblyBlocks.appendChild(indicator);
+
+      const chip = document.createElement('div');
+      chip.className = 'md-input-chip';
+      chip.draggable = true;
+      chip.dataset.blockId = block.id;
+
+      if (block.type === 'custom') {
+        chip.classList.add('md-input-chip--custom');
+      } else if (block.type === 'static') {
+        chip.classList.add('md-input-chip--static');
+      }
+
+      const textSpan = document.createElement('span');
+      textSpan.className = 'md-input-chip__text';
+      textSpan.textContent = block.label;
+
+      const deleteBtn = document.createElement('button');
+      deleteBtn.className = 'md-input-chip__delete';
+      deleteBtn.innerHTML = '<span class="material-symbols-outlined">close</span>';
+      deleteBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        removeBlockFromAssembly(block.id);
+      });
+
+      chip.appendChild(textSpan);
+      chip.appendChild(deleteBtn);
+
+      // Only dragstart and dragend on the chip itself
+      chip.addEventListener('dragstart', handleDragStart);
+      chip.addEventListener('dragend', handleDragEnd);
+
+      assemblyBlocks.appendChild(chip);
+    });
+
+    // Trailing drop indicator
+    const trailingIndicator = document.createElement('div');
+    trailingIndicator.className = 'drop-indicator';
+    assemblyBlocks.appendChild(trailingIndicator);
+  }
+
+  // ========== Drag and Drop ==========
+  let draggedBlockId = null;
+
+  function handleDragStart(e) {
+    draggedBlockId = parseInt(this.dataset.blockId);
+    this.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', draggedBlockId);
+  }
+
+  function handleDragEnd(e) {
+    this.classList.remove('dragging');
+    clearDropIndicators();
+    assemblyCard.classList.remove('drag-active');
+    draggedBlockId = null;
+  }
+
+  function clearDropIndicators() {
+    document.querySelectorAll('.drop-indicator.visible').forEach(el => {
+      el.classList.remove('visible');
+    });
+  }
+
+  function findInsertIndex(clientX, clientY) {
+    // Find the best insertion point based on mouse position
+    const chips = assemblyBlocks.querySelectorAll('.md-input-chip');
+    if (chips.length === 0) return 0;
+
+    // Check if the cursor is below the blocks row (e.g. on static input area)
+    const blocksRect = assemblyBlocks.getBoundingClientRect();
+    if (clientY > blocksRect.bottom) {
+      return state.assemblyBlocks.length;
+    }
+
+    for (let i = 0; i < chips.length; i++) {
+      const rect = chips[i].getBoundingClientRect();
+      const midX = rect.left + rect.width / 2;
+      if (clientX < midX) {
+        return i;
+      }
+    }
+    return chips.length;
+  }
+
+  function showDropIndicator(insertIndex) {
+    clearDropIndicators();
+    const indicators = assemblyBlocks.querySelectorAll('.drop-indicator');
+    if (indicators[insertIndex]) {
+      indicators[insertIndex].classList.add('visible');
+    }
+  }
+
+  // Container-level drag events (on assemblyCard for wider drop target)
+  assemblyCard.addEventListener('dragenter', (e) => {
+    e.preventDefault();
+    const data = e.dataTransfer;
+    if (draggedBlockId !== null || data.types.includes('application/json')) {
+      assemblyCard.classList.add('drag-active');
+    }
+  });
+
+  assemblyCard.addEventListener('dragleave', (e) => {
+    // Only clear if actually leaving the container
+    if (!assemblyCard.contains(e.relatedTarget)) {
+      assemblyCard.classList.remove('drag-active');
+      clearDropIndicators();
+    }
+  });
+
+  assemblyCard.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    const data = e.dataTransfer;
+    // Accept both internal moves and external charset drops
+    if (draggedBlockId !== null) {
+      data.dropEffect = 'move';
+    } else {
+      // Check if it's a charset panel drag
+      if (data.types.includes('application/json')) {
+        data.dropEffect = 'copy';
+      } else {
+        return;
+      }
+    }
+
+    const insertIndex = findInsertIndex(e.clientX, e.clientY);
+    showDropIndicator(insertIndex);
+  });
+
+  assemblyCard.addEventListener('drop', (e) => {
+    e.preventDefault();
+    clearDropIndicators();
+    assemblyCard.classList.remove('drag-active');
+
+    // Check if this is a new block from charset panel
+    const jsonData = e.dataTransfer.getData('application/json');
+    if (jsonData && draggedBlockId === null) {
+      try {
+        const data = JSON.parse(jsonData);
+        if (data.source === 'charset-panel') {
+          const insertIndex = findInsertIndex(e.clientX, e.clientY);
+          const block = {
+            id: state.nextBlockId++,
+            type: data.type,
+            mask: data.mask,
+            label: data.label,
+            customIndex: data.customIndex || null,
+            customChars: data.customChars || null
+          };
+          state.assemblyBlocks.splice(insertIndex, 0, block);
+          renderAssembly();
+          updateCommand();
+          return;
+        }
+      } catch (err) {
+        // Not valid JSON, ignore
+      }
+    }
+
+    // Internal reorder
+    if (draggedBlockId === null) return;
+
+    const insertIndex = findInsertIndex(e.clientX, e.clientY);
+    const fromIndex = state.assemblyBlocks.findIndex(b => b.id === draggedBlockId);
+
+    if (fromIndex === -1) return;
+
+    // Remove from old position
+    const [movedBlock] = state.assemblyBlocks.splice(fromIndex, 1);
+
+    // Adjust insert index if removing from before the target
+    let adjustedIndex = insertIndex;
+    if (fromIndex < insertIndex) {
+      adjustedIndex--;
+    }
+
+    state.assemblyBlocks.splice(adjustedIndex, 0, movedBlock);
+
+    renderAssembly();
+    updateCommand();
+  });
+
+  // ========== Static Text ==========
+  function addStaticText() {
+    const text = staticTextInput.value;
+    if (!text) return;
+
+    // Escape ? characters: in maskprocessor, ? is special, so ?? represents a literal ?
+    const escapedMask = text.replace(/\?/g, '??');
+
+    addBlockToAssembly('static', escapedMask, `"${text}"`);
+    staticTextInput.value = '';
+    updateCommand();
+  }
+
+  addStaticBtn.addEventListener('click', addStaticText);
+  staticTextInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') addStaticText();
+  });
+
+  // ========== Increment Option ==========
+  incrementSwitch.addEventListener('change', () => {
+    state.incrementEnabled = incrementSwitch.checked;
+    incrementFields.classList.toggle('visible', state.incrementEnabled);
+    updateCommand();
+  });
+
+  incrementMinInput.addEventListener('input', () => {
+    state.incrementMin = parseInt(incrementMinInput.value) || 1;
+    updateCommand();
+  });
+
+  incrementMaxInput.addEventListener('input', () => {
+    state.incrementMax = parseInt(incrementMaxInput.value) || 8;
+    updateCommand();
+  });
+
+  // ========== Command Generation ==========
+  function updateCommand() {
+    if (state.assemblyBlocks.length === 0) {
+      commandOutput.innerHTML = '<span class="command-card__empty">Add blocks to the assembly area to generate a command</span>';
+      calculateKeyspace();
+      return;
+    }
+
+    // Build mask string
+    const maskParts = state.assemblyBlocks.map(b => b.mask);
+    const mask = maskParts.join('');
+
+    // Determine which custom charsets are used in the mask
+    const usedCustomIndices = new Set();
+    state.assemblyBlocks.forEach(b => {
+      if (b.type === 'custom' && b.customIndex) {
+        usedCustomIndices.add(b.customIndex);
+      }
+    });
+
+    // Build custom charset options
+    const charsetOptions = [];
+    state.customCharsets.forEach(cs => {
+      if (usedCustomIndices.has(cs.index)) {
+        // Need to escape special chars in the charset for shell display
+        charsetOptions.push(`-${cs.index} ${cs.chars}`);
+      }
+    });
+
+    // Build increment option
+    let incrementOption = '';
+    if (state.incrementEnabled) {
+      incrementOption = `-i ${state.incrementMin}:${state.incrementMax}`;
+    }
+
+    // Assemble full command
+    const parts = ['mp64'];
+    charsetOptions.forEach(opt => parts.push(opt));
+    if (incrementOption) parts.push(incrementOption);
+    parts.push(mask);
+
+    const fullCommand = parts.join(' ');
+
+    // Render with syntax highlighting
+    let html = '<span class="cmd-prefix">mp64</span>';
+    charsetOptions.forEach(opt => {
+      html += ` <span class="cmd-option">${escapeHtml(opt)}</span>`;
+    });
+    if (incrementOption) {
+      html += ` <span class="cmd-option">${escapeHtml(incrementOption)}</span>`;
+    }
+    html += ` <span class="cmd-mask">${escapeHtml(mask)}</span>`;
+
+    commandOutput.innerHTML = html;
+    calculateKeyspace();
+  }
+
+  function escapeHtml(str) {
+    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  // ========== Keyspace Calculation ==========
+  function calculateKeyspace() {
+    if (state.assemblyBlocks.length === 0) {
+      keyspaceCard.innerHTML = '<span class="keyspace-card__empty">Add blocks to calculate keyspace</span>';
+      return;
+    }
+
+    let totalKeyspace = 1;
+    const blockSizes = [];
+
+    for (const block of state.assemblyBlocks) {
+      let size = 1;
+      if (block.type === 'builtin') {
+        size = BUILTIN_CHARSET_SIZES[block.mask] || 1;
+      } else if (block.type === 'custom' && block.customChars) {
+        // Count unique characters in custom charset
+        size = new Set(block.customChars).size;
+      } else if (block.type === 'static') {
+        size = 1; // static text is fixed, only 1 possibility
+      }
+      blockSizes.push({ label: block.label, size });
+      totalKeyspace *= size;
+    }
+
+    // Format large numbers
+    const formatted = formatLargeNumber(totalKeyspace);
+    const detail = blockSizes.map(b => `${b.label}: ${b.size.toLocaleString()}`).join(' × ');
+
+    keyspaceCard.innerHTML = `
+      <div style="flex:1;min-width:0">
+        <div class="keyspace-card__value">${formatted}</div>
+        <div class="keyspace-card__detail">${escapeHtml(detail)}</div>
+      </div>
+    `;
+  }
+
+  function formatLargeNumber(n) {
+    if (n === 0) return '0';
+    if (!Number.isFinite(n)) return '∞';
+
+    // Use BigInt for very large numbers
+    if (n > Number.MAX_SAFE_INTEGER) {
+      return n.toExponential(4);
+    }
+
+    return n.toLocaleString();
+  }
+
+  // ========== Copy ==========
+  copyBtn.addEventListener('click', () => {
+    if (state.assemblyBlocks.length === 0) {
+      showSnackbar('No command to copy');
+      return;
+    }
+
+    const maskParts = state.assemblyBlocks.map(b => b.mask);
+    const mask = maskParts.join('');
+
+    const usedCustomIndices = new Set();
+    state.assemblyBlocks.forEach(b => {
+      if (b.type === 'custom' && b.customIndex) {
+        usedCustomIndices.add(b.customIndex);
+      }
+    });
+
+    const charsetOptions = [];
+    state.customCharsets.forEach(cs => {
+      if (usedCustomIndices.has(cs.index)) {
+        charsetOptions.push(`-${cs.index} ${cs.chars}`);
+      }
+    });
+
+    let incrementOption = '';
+    if (state.incrementEnabled) {
+      incrementOption = `-i ${state.incrementMin}:${state.incrementMax}`;
+    }
+
+    const parts = ['mp64'];
+    charsetOptions.forEach(opt => parts.push(opt));
+    if (incrementOption) parts.push(incrementOption);
+    parts.push(mask);
+
+    const fullCommand = parts.join(' ');
+
+    navigator.clipboard.writeText(fullCommand).then(() => {
+      showSnackbar('Command copied to clipboard');
+    }).catch(() => {
+      // Fallback
+      const textarea = document.createElement('textarea');
+      textarea.value = fullCommand;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        document.execCommand('copy');
+        showSnackbar('Command copied to clipboard');
+      } catch (err) {
+        showSnackbar('Failed to copy command');
+      }
+      document.body.removeChild(textarea);
+    });
+  });
+
+  // ========== Init ==========
+  initTheme();
+  renderAssembly();
+  updateCommand();
+
+})();
+</script>
+</body>
+</html>
