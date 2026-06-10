@@ -1037,6 +1037,19 @@ body {
   right: 0;
 }
 
+.command-scroll-item {
+  overflow: hidden;
+  border-bottom: 1px dashed var(--md-sys-color-outline-variant);
+  box-sizing: border-box;
+  padding: 4px 0;
+}
+
+.command-scroll-item .command-card__label {
+  font-size: 10px;
+  line-height: 14px;
+  margin-bottom: 2px;
+}
+
 .command-card__header {
   display: flex;
   flex-direction: column;
@@ -1411,6 +1424,13 @@ body {
         </span>
         <span class="md-switch__label">Increment mode</span>
       </label>
+      <label class="md-switch">
+        <input type="checkbox" id="safetyLimitSwitch" checked aria-label="Safety limit toggle">
+        <span class="md-switch__track">
+          <span class="md-switch__thumb"></span>
+        </span>
+        <span class="md-switch__label">Safety limit</span>
+      </label>
       <div class="increment-fields" id="incrementFields">
         <div class="md-outlined-text-field md-outlined-text-field--small">
           <input type="number" class="md-outlined-text-field__input" id="incrementMin" placeholder="Min" min="1" value="1" aria-label="Increment minimum">
@@ -1486,6 +1506,7 @@ body {
     incrementEnabled: false,
     incrementMin: 1,
     incrementMax: 8,
+    safetyLimitEnabled: true,
     cachedUniquePerms: null,  // Cached unique permutations for copy consistency
     cachedTruncated: false,
     cachedTotalEstimate: 1,
@@ -1524,6 +1545,7 @@ body {
   const staticTextInput = $('#staticTextInput');
   const addStaticBtn = $('#addStaticBtn');
   const incrementSwitch = $('#incrementSwitch');
+  const safetyLimitSwitch = $('#safetyLimitSwitch');
   const incrementFields = $('#incrementFields');
   const incrementMinInput = $('#incrementMin');
   const incrementMaxInput = $('#incrementMax');
@@ -2205,6 +2227,11 @@ body {
     updateCommand();
   });
 
+  safetyLimitSwitch.addEventListener('change', () => {
+    state.safetyLimitEnabled = safetyLimitSwitch.checked;
+    updateCommand();
+  });
+
   incrementMinInput.addEventListener('input', () => {
     state.incrementMin = Math.max(1, parseInt(incrementMinInput.value) || 1);
     if (state.incrementMin > state.incrementMax) {
@@ -2375,104 +2402,17 @@ body {
     return result;
   }
 
-  function getMultiGroupUniquePerms(groups, maxResults) {
-    if (maxResults === undefined) maxResults = MAX_DISPLAY_COMMANDS;
-    const MAX_PER_GROUP = 500000;
-
-    // For each group, generate its unique permutations
-    const groupPerms = groups.map(group => {
-      // Only limit per-group generation when factorial is huge
-      const rawLimit = factorial(group.k) > MAX_PER_GROUP ? MAX_PER_GROUP : undefined;
-      const perms = getPermutations(group.innerBlocks, rawLimit);
-      const seen = new Set();
-      const unique = [];
-      for (const perm of perms) {
-        const key = perm.map(b => b.mask).join('');
-        if (!seen.has(key)) {
-          seen.add(key);
-          unique.push(perm);
-        }
-      }
-      // If getPermutations was truncated, use factorial(k) as upper bound
-      const wasTruncated = rawLimit !== undefined && perms.length >= rawLimit;
-      const count = wasTruncated ? factorial(group.k) : unique.length;
-      return { perms: unique, count, wasTruncated };
-    });
-
-    // Calculate total estimate using per-group counts (exact or upper bound)
-    let totalEstimate = 1;
-    for (const gp of groupPerms) {
-      totalEstimate *= gp.count;
-    }
-
-    // Compute Cartesian product of all groups' unique permutations
-    // with early termination when maxResults is reached
-    let result = [{}];
-    let truncated = groupPerms.some(gp => gp.wasTruncated);
-    for (let g = 0; g < groupPerms.length; g++) {
-      const newResult = [];
-      for (const combo of result) {
-        for (const perm of groupPerms[g].perms) {
-          newResult.push({ ...combo, [g]: perm });
-          if (Number.isFinite(maxResults) && newResult.length >= maxResults) {
-            truncated = true;
-            break;
-          }
-        }
-        if (truncated) break;
-      }
-      result = newResult;
-      if (truncated) break;
-    }
-
-    // Build full command blocks for each combination and deduplicate
-    const seen = new Set();
-    const unique = [];
-    for (const combo of result) {
-      const blocks = buildPermutedBlocks(combo, groups);
-      const cmd = buildCommandFromBlocks(blocks);
-      if (!seen.has(cmd.command)) {
-        seen.add(cmd.command);
-        unique.push({ combo, cmd, blocks });
-      }
-    }
-
-    return { perms: unique, truncated, totalEstimate };
-  }
-
-  function buildPermutedBlocks(combo, groups) {
-    // combo is { 0: perm0, 1: perm1, ... } mapping groupIndex to permutation
-    // groups is the array from getAllSwapGroupInfos()
-    const result = [];
-    let i = 0;
-    while (i < state.assemblyBlocks.length) {
-      const block = state.assemblyBlocks[i];
-      if (block.type === 'swap-group-start') {
-        // Find which group this is
-        const group = groups.find(g => g.startIdx === i);
-        if (group) {
-          // Add the permuted inner blocks for this group
-          const perm = combo[group.groupIndex];
-          if (perm) {
-            result.push(...perm);
-          }
-          i = group.endIdx + 1; // Skip to after the matching }
-          continue;
-        }
-      } else if (block.type !== 'swap-group-end') {
-        result.push(block);
-      }
-      i++;
-    }
-    return result;
-  }
-
   function renderCommandHtml(label, cmdResult) {
     let html = '';
     if (label) {
       html += `<div class="command-card__label">${label}</div>`;
     }
-    html += '<span class="cmd-prefix">mp64</span>';
+    html += renderCommandText(cmdResult);
+    return html;
+  }
+
+  function renderCommandText(cmdResult) {
+    let html = '<span class="cmd-prefix">mp64</span>';
     cmdResult.charsetOptions.forEach(opt => {
       html += ` <span class="cmd-option">${escapeHtml(opt)}</span>`;
     });
@@ -2550,8 +2490,10 @@ body {
 
     let html = '';
     for (let i = startIndex; i < endIndex; i++) {
-      if (i > startIndex) html += '<hr class="command-card__divider">';
-      html += renderCommandHtml(list[i].label, list[i].cmd);
+      html += `<div class="command-scroll-item" style="height:${COMMAND_LINE_HEIGHT}px">`;
+      if (list[i].label) html += `<div class="command-card__label">${list[i].label}</div>`;
+      html += renderCommandText(list[i].cmd);
+      html += '</div>';
     }
 
     viewport.style.transform = `translateY(${startIndex * COMMAND_LINE_HEIGHT}px)`;
@@ -2563,6 +2505,12 @@ body {
     state.cachedTruncated = false;
     state.cachedTotalEstimate = 1;
     state.commandList = null;
+
+    // Terminate any in-flight display worker
+    if (activeDisplayWorker) {
+      activeDisplayWorker.terminate();
+      activeDisplayWorker = null;
+    }
 
     if (state.assemblyBlocks.length === 0) {
       commandOutput.innerHTML = '<span class="command-card__empty">Add blocks to the assembly area to generate a command</span>';
@@ -2593,24 +2541,52 @@ body {
       // No swap groups or not enough inner blocks - single command
       const original = buildCommandFromBlocks(state.assemblyBlocks);
       commandOutput.innerHTML = renderCommandHtml(null, original);
+      calculateKeyspace(null);
     } else {
-      // Generate unique permutations (deduplicated by command string)
-      // Soft cap: generate up to 10000, show warning if truncated
-      const result = getMultiGroupUniquePerms(groups, MAX_DISPLAY_COMMANDS);
-      state.cachedUniquePerms = result.perms;
-      state.cachedTruncated = result.truncated;
-      state.cachedTotalEstimate = result.totalEstimate;
+      // Use Worker for async computation to avoid UI freeze
+      commandOutput.innerHTML = '<span class="command-card__empty">Generating commands\u2026</span>';
 
-      // Store command data for virtual scroll rendering
-      state.commandList = result.perms.map((p, i) => ({
-        label: i === 0 ? 'Original' : `Swapped ${i}`,
-        cmd: p.cmd
+      const serializableGroups = groups.map(g => ({
+        startIdx: g.startIdx,
+        endIdx: g.endIdx,
+        innerBlocks: g.innerBlocks.map(b => ({ type: b.type, mask: b.mask, label: b.label, customIndex: b.customIndex, customChars: b.customChars })),
+        k: g.k,
+        groupIndex: g.groupIndex
       }));
+      const serializableBlocks = state.assemblyBlocks.map(b => ({ type: b.type, mask: b.mask, label: b.label, customIndex: b.customIndex, customChars: b.customChars }));
 
-      renderVirtualScroll();
+      activeDisplayWorker = new Worker(workerUrl);
+      activeDisplayWorker.onmessage = (e) => {
+        if (e.data.error) {
+          commandOutput.innerHTML = '<span class="command-card__empty">Error generating commands</span>';
+          calculateKeyspace(null);
+        } else {
+          const { perms, truncated, totalEstimate } = e.data;
+          state.cachedUniquePerms = perms;
+          state.cachedTruncated = truncated;
+          state.cachedTotalEstimate = totalEstimate;
+          state.commandList = perms.map((p, i) => ({
+            label: i === 0 ? 'Original' : `Swapped ${i}`,
+            cmd: p.cmd
+          }));
+          renderVirtualScroll();
+          calculateKeyspace(perms);
+        }
+        activeDisplayWorker.terminate();
+        activeDisplayWorker = null;
+      };
+      activeDisplayWorker.postMessage({
+        mode: 'display',
+        groups: serializableGroups,
+        assemblyBlocks: serializableBlocks,
+        customCharsets: state.customCharsets,
+        incrementEnabled: state.incrementEnabled,
+        incrementMin: state.incrementMin,
+        incrementMax: state.incrementMax,
+        maxResults: MAX_DISPLAY_COMMANDS,
+        safetyLimitEnabled: state.safetyLimitEnabled
+      });
     }
-
-    calculateKeyspace(state.cachedUniquePerms);
   }
 
   function escapeHtml(str) {
@@ -2661,21 +2637,19 @@ body {
         </div>
       `;
     } else {
-      // Use cached perms if available, otherwise generate
+      // Use cached perms if available
       let uniquePerms = cachedUniquePerms;
       let truncated = state.cachedTruncated ?? false;
       let totalEstimate = state.cachedTotalEstimate ?? 1;
 
-      if (!uniquePerms) {
-        const genResult = getMultiGroupUniquePerms(groups, MAX_DISPLAY_COMMANDS);
-        uniquePerms = genResult.perms;
-        truncated = genResult.truncated;
-        totalEstimate = genResult.totalEstimate;
+      if (!uniquePerms || uniquePerms.length === 0) {
+        // Worker result not yet available — show loading
+        keyspaceCard.innerHTML = '<span class="keyspace-card__empty">Calculating\u2026</span>';
+        return;
       }
 
-      // Original keyspace (from first permutation's blocks)
-      const originalBlocks = uniquePerms[0].blocks;
-      const originalResult = calculateKeyspaceForBlocks(originalBlocks);
+      // Original keyspace (from assembly blocks — same as first permutation)
+      const originalResult = calculateKeyspaceForBlocks(state.assemblyBlocks);
       const originalFormatted = formatLargeNumber(originalResult.totalKeyspace);
       const originalDetail = originalResult.blockSizes.map(b => `${b.label}: ${b.size.toLocaleString()}`).join(' × ');
 
@@ -2731,6 +2705,13 @@ body {
 
   // Inline Web Worker script for permutation computation
   const workerScript = `
+    function factorial(n) {
+      if (n > 20) return Infinity;
+      let result = 1;
+      for (let i = 2; i <= n; i++) result *= i;
+      return result;
+    }
+
     function getPermutations(arr, maxCount) {
       if (arr.length <= 1) return [arr];
       const result = [];
@@ -2783,40 +2764,88 @@ body {
       return parts.join(' ');
     }
 
+    function computeUniqueCommands(groups, assemblyBlocks, customCharsets, incrementEnabled, incrementMin, incrementMax, maxResults, safetyLimitEnabled) {
+      const MAX_PER_GROUP = 500000;
+      const groupPerms = groups.map(group => {
+        const rawLimit = (safetyLimitEnabled && factorial(group.k) > MAX_PER_GROUP) ? MAX_PER_GROUP : undefined;
+        const perms = getPermutations(group.innerBlocks, rawLimit);
+        const seen = new Set();
+        const unique = [];
+        for (const perm of perms) {
+          const key = perm.map(b => b.mask).join('');
+          if (!seen.has(key)) { seen.add(key); unique.push(perm); }
+        }
+        const wasTruncated = rawLimit !== undefined && perms.length >= rawLimit;
+        // Use actual unique count; when truncated, estimate by scaling up
+        let count;
+        if (wasTruncated) {
+          // Estimate: unique.length is from rawLimit raw perms out of factorial(k) total
+          // Scale up proportionally, but cap at factorial(k)
+          const estimatedUnique = Math.min(factorial(group.k), Math.ceil(unique.length * (factorial(group.k) / rawLimit)));
+          count = estimatedUnique;
+        } else {
+          count = unique.length;
+        }
+        return { perms: unique, count, wasTruncated };
+      });
+
+      let totalEstimate = 1;
+      for (const gp of groupPerms) totalEstimate *= gp.count;
+
+      // Cartesian product with optional truncation
+      let combos = [{}];
+      let truncated = groupPerms.some(gp => gp.wasTruncated);
+      for (let g = 0; g < groupPerms.length; g++) {
+        const newCombos = [];
+        for (const combo of combos) {
+          for (const perm of groupPerms[g].perms) {
+            newCombos.push({ ...combo, [g]: perm });
+            if (maxResults !== undefined && newCombos.length >= maxResults) { truncated = true; break; }
+          }
+          if (truncated) break;
+        }
+        combos = newCombos;
+        if (truncated) break;
+      }
+
+      // Build and deduplicate commands
+      const seen = new Set();
+      const commands = [];
+      const perms = [];
+      for (const combo of combos) {
+        const blocks = buildPermutedBlocks(combo, groups, assemblyBlocks);
+        const cmd = buildCommandFromBlocks(blocks, customCharsets, incrementEnabled, incrementMin, incrementMax);
+        if (!seen.has(cmd)) {
+          seen.add(cmd);
+          if (maxResults !== undefined) {
+            // Display mode: return structured data with cmd details
+            const maskParts = blocks.filter(b => b.type !== 'swap-group-start' && b.type !== 'swap-group-end').map(b => b.mask);
+            const usedCustomIndices = new Set();
+            blocks.forEach(b => { if (b.type === 'custom' && b.customIndex) usedCustomIndices.add(b.customIndex); });
+            const csOpts = [];
+            customCharsets.forEach(cs => { if (usedCustomIndices.has(cs.index)) csOpts.push('-' + cs.index + ' ' + cs.chars); });
+            const incOpt = incrementEnabled ? '-i ' + incrementMin + ':' + incrementMax : '';
+            perms.push({ cmd: { command: cmd, charsetOptions: csOpts, incrementOption: incOpt, mask: maskParts.join('') } });
+          } else {
+            // Copy mode: return plain command strings
+            commands.push(cmd);
+          }
+        }
+      }
+
+      return { perms, commands, truncated, totalEstimate };
+    }
+
     self.onmessage = function(e) {
       try {
-        const { groups, assemblyBlocks, customCharsets, incrementEnabled, incrementMin, incrementMax } = e.data;
-        // Generate ALL unique permutations per group (no limit)
-        const groupPerms = groups.map(group => {
-          const perms = getPermutations(group.innerBlocks);
-          const seen = new Set();
-          const unique = [];
-          for (const perm of perms) {
-            const key = perm.map(b => b.mask).join('');
-            if (!seen.has(key)) { seen.add(key); unique.push(perm); }
-          }
-          return unique;
-        });
-        // Cartesian product (no limit)
-        let combos = [{}];
-        for (let g = 0; g < groupPerms.length; g++) {
-          const newCombos = [];
-          for (const combo of combos) {
-            for (const perm of groupPerms[g]) {
-              newCombos.push({ ...combo, [g]: perm });
-            }
-          }
-          combos = newCombos;
+        const { mode, groups, assemblyBlocks, customCharsets, incrementEnabled, incrementMin, incrementMax, maxResults, safetyLimitEnabled } = e.data;
+        if (mode === 'display') {
+          const result = computeUniqueCommands(groups, assemblyBlocks, customCharsets, incrementEnabled, incrementMin, incrementMax, maxResults, safetyLimitEnabled);
+          self.postMessage({ mode: 'display', perms: result.perms, truncated: result.truncated, totalEstimate: result.totalEstimate });
+        } else {
+          const result = computeUniqueCommands(groups, assemblyBlocks, customCharsets, incrementEnabled, incrementMin, incrementMax, undefined, safetyLimitEnabled);
+          self.postMessage({ mode: 'copy', commands: result.commands, truncated: result.truncated, totalEstimate: result.totalEstimate });
         }
-        // Build commands and deduplicate
-        const seen = new Set();
-        const allCommands = [];
-        for (const combo of combos) {
-          const blocks = buildPermutedBlocks(combo, groups, assemblyBlocks);
-          const cmd = buildCommandFromBlocks(blocks, customCharsets, incrementEnabled, incrementMin, incrementMax);
-          if (!seen.has(cmd)) { seen.add(cmd); allCommands.push(cmd); }
-        }
-        self.postMessage({ commands: allCommands });
       } catch (err) {
         self.postMessage({ error: err.message });
       }
@@ -2826,6 +2855,7 @@ body {
   const workerBlob = new Blob([workerScript], { type: 'text/javascript' });
   const workerUrl = URL.createObjectURL(workerBlob);
   let activeWorker = null;
+  let activeDisplayWorker = null;
 
   function setCopyLoading(loading) {
     if (loading) {
@@ -2894,9 +2924,14 @@ body {
       setCopyLoading(false);
       if (e.data.error) {
         showSnackbar('Failed to copy commands');
-      } else {
+      } else if (e.data.mode === 'copy') {
         const commands = e.data.commands;
         copyToClipboard(commands.join('\n'), commands.length);
+        if (e.data.truncated && Number.isFinite(e.data.totalEstimate) && e.data.totalEstimate > commands.length) {
+          setTimeout(() => {
+            showSnackbar(`Only ${commands.length.toLocaleString()} of ~${e.data.totalEstimate.toLocaleString()} unique commands could be generated (safety limit)`);
+          }, 2500);
+        }
       }
       activeWorker.terminate();
       activeWorker = null;
@@ -2920,12 +2955,14 @@ body {
     const serializableBlocks = state.assemblyBlocks.map(b => ({ type: b.type, mask: b.mask, label: b.label, customIndex: b.customIndex, customChars: b.customChars }));
 
     activeWorker.postMessage({
+      mode: 'copy',
       groups: serializableGroups,
       assemblyBlocks: serializableBlocks,
       customCharsets: state.customCharsets,
       incrementEnabled: state.incrementEnabled,
       incrementMin: state.incrementMin,
-      incrementMax: state.incrementMax
+      incrementMax: state.incrementMax,
+      safetyLimitEnabled: state.safetyLimitEnabled
     });
   });
 
