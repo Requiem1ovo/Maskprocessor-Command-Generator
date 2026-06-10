@@ -70,6 +70,38 @@
   --md-sys-elevation-1: 0 1px 2px 0 rgba(0,0,0,0.3), 0 1px 3px 1px rgba(0,0,0,0.15);
   --md-sys-elevation-2: 0 1px 2px 0 rgba(0,0,0,0.3), 0 2px 6px 2px rgba(0,0,0,0.15);
   --md-sys-elevation-3: 0 4px 8px 3px rgba(0,0,0,0.15), 0 1px 3px 0 rgba(0,0,0,0.3);
+
+  /* Swap Group color tokens */
+  --swap-group-0-color: #E65100;
+  --swap-group-0-bg: rgba(255, 143, 0, 0.12);
+  --swap-group-0-bg-hover: rgba(255, 143, 0, 0.24);
+  --swap-group-0-in-bg: rgba(255, 143, 0, 0.08);
+  --swap-group-0-in-border: rgba(230, 81, 0, 0.4);
+  --swap-group-1-color: #00695C;
+  --swap-group-1-bg: rgba(0, 137, 123, 0.12);
+  --swap-group-1-bg-hover: rgba(0, 137, 123, 0.24);
+  --swap-group-1-in-bg: rgba(0, 137, 123, 0.08);
+  --swap-group-1-in-border: rgba(0, 105, 92, 0.4);
+  --swap-group-2-color: #6A1B9A;
+  --swap-group-2-bg: rgba(156, 39, 176, 0.12);
+  --swap-group-2-bg-hover: rgba(156, 39, 176, 0.24);
+  --swap-group-2-in-bg: rgba(156, 39, 176, 0.08);
+  --swap-group-2-in-border: rgba(106, 27, 154, 0.4);
+  --swap-group-3-color: #1565C0;
+  --swap-group-3-bg: rgba(33, 150, 243, 0.12);
+  --swap-group-3-bg-hover: rgba(33, 150, 243, 0.24);
+  --swap-group-3-in-bg: rgba(33, 150, 243, 0.08);
+  --swap-group-3-in-border: rgba(21, 101, 192, 0.4);
+}
+
+/* MD3 Motion tokens */
+:root {
+  --md-sys-motion-easing-standard: cubic-bezier(0.2, 0, 0, 1);
+  --md-sys-motion-easing-emphasized-decelerate: cubic-bezier(0.05, 0.7, 0.1, 1);
+  --md-sys-motion-easing-emphasized-accelerate: cubic-bezier(0.3, 0, 0.8, 0.15);
+  --md-sys-motion-duration-short: 200ms;
+  --md-sys-motion-duration-medium: 300ms;
+  --md-sys-motion-duration-long: 500ms;
 }
 
 /* Dark theme overrides */
@@ -102,6 +134,28 @@
   --md-sys-color-outline-variant: #49454F;
   --md-sys-color-inverse-surface: #E6E0E9;
   --md-sys-color-inverse-on-surface: #322F35;
+
+  /* Swap Group color tokens - brighter for dark mode */
+  --swap-group-0-color: #FFB74D;
+  --swap-group-0-bg: rgba(255, 183, 77, 0.15);
+  --swap-group-0-bg-hover: rgba(255, 183, 77, 0.28);
+  --swap-group-0-in-bg: rgba(255, 183, 77, 0.10);
+  --swap-group-0-in-border: rgba(255, 183, 77, 0.4);
+  --swap-group-1-color: #80CBC4;
+  --swap-group-1-bg: rgba(128, 203, 196, 0.15);
+  --swap-group-1-bg-hover: rgba(128, 203, 196, 0.28);
+  --swap-group-1-in-bg: rgba(128, 203, 196, 0.10);
+  --swap-group-1-in-border: rgba(128, 203, 196, 0.4);
+  --swap-group-2-color: #CE93D8;
+  --swap-group-2-bg: rgba(206, 147, 216, 0.15);
+  --swap-group-2-bg-hover: rgba(206, 147, 216, 0.28);
+  --swap-group-2-in-bg: rgba(206, 147, 216, 0.10);
+  --swap-group-2-in-border: rgba(206, 147, 216, 0.4);
+  --swap-group-3-color: #90CAF9;
+  --swap-group-3-bg: rgba(144, 202, 249, 0.15);
+  --swap-group-3-bg-hover: rgba(144, 202, 249, 0.28);
+  --swap-group-3-in-bg: rgba(144, 202, 249, 0.10);
+  --swap-group-3-in-border: rgba(144, 202, 249, 0.4);
 }
 
 /* ========== Reset & Base ========== */
@@ -121,7 +175,7 @@ body {
   background-color: var(--md-sys-color-surface);
   color: var(--md-sys-color-on-surface);
   min-height: 100vh;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color var(--md-sys-motion-duration-medium) var(--md-sys-motion-easing-standard), color var(--md-sys-motion-duration-medium) var(--md-sys-motion-easing-standard);
 }
 
 /* ========== Material Symbols ========== */
@@ -137,7 +191,7 @@ body {
   z-index: 100;
   background-color: var(--md-sys-color-surface);
   border-bottom: 1px solid var(--md-sys-color-outline-variant);
-  transition: background-color 0.3s ease, border-color 0.3s ease;
+  transition: background-color var(--md-sys-motion-duration-medium) var(--md-sys-motion-easing-standard), border-color var(--md-sys-motion-duration-medium) var(--md-sys-motion-easing-standard);
 }
 
 .top-app-bar__inner {
@@ -158,7 +212,7 @@ body {
   color: var(--md-sys-color-on-surface-variant);
   text-decoration: none;
   font: var(--md-sys-typescale-label-large);
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition: background-color var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard), color var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard);
 }
 
 .github-link:hover {
@@ -181,6 +235,23 @@ body {
   margin-top: 2px;
 }
 
+.top-app-bar__actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.swap-group-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.md-outlined-text-field--full-width {
+  width: 100%;
+}
+
 /* ========== Icon Button ========== */
 .md-icon-button {
   display: inline-flex;
@@ -195,7 +266,7 @@ body {
   cursor: pointer;
   position: relative;
   overflow: hidden;
-  transition: background-color 0.2s ease;
+  transition: background-color var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard);
 }
 
 .md-icon-button:hover {
@@ -263,7 +334,7 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  height: 32px;
+  height: 36px;
   padding: 0 16px;
   border-radius: var(--md-sys-shape-corner-small);
   border: 1px solid var(--md-sys-color-outline);
@@ -271,7 +342,7 @@ body {
   color: var(--md-sys-color-on-surface);
   font: var(--md-sys-typescale-label-large);
   cursor: grab;
-  transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: background-color var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard), border-color var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard), box-shadow var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard);
   user-select: none;
   position: relative;
   overflow: hidden;
@@ -322,6 +393,40 @@ body {
   color: var(--md-sys-color-on-tertiary-container);
 }
 
+/* Swap Group Start button - orange/amber accent */
+.md-assist-chip--swap-group-start {
+  border-color: var(--swap-group-color);
+  background-color: var(--swap-group-bg);
+  gap: 4px;
+}
+
+.md-assist-chip--swap-group-start:hover {
+  background-color: var(--swap-group-bg-hover);
+}
+
+.md-assist-chip--swap-group-start .md-assist-chip__label {
+  color: var(--swap-group-color);
+  font-weight: 500;
+  font-family: 'Roboto Mono', monospace;
+}
+
+/* Swap Group End button - orange/amber accent */
+.md-assist-chip--swap-group-end {
+  border-color: var(--swap-group-color);
+  background-color: var(--swap-group-bg);
+  gap: 4px;
+}
+
+.md-assist-chip--swap-group-end:hover {
+  background-color: var(--swap-group-bg-hover);
+}
+
+.md-assist-chip--swap-group-end .md-assist-chip__label {
+  color: var(--swap-group-color);
+  font-weight: 500;
+  font-family: 'Roboto Mono', monospace;
+}
+
 /* Custom charset chip wrapper with delete */
 .custom-chip-wrapper {
   display: inline-flex;
@@ -339,15 +444,16 @@ body {
   align-items: center;
   justify-content: center;
   width: 28px;
-  height: 32px;
+  height: 28px;
   border-radius: 0 var(--md-sys-shape-corner-small) var(--md-sys-shape-corner-small) 0;
   border: 1px solid var(--md-sys-color-tertiary);
   border-left: none;
   background-color: color-mix(in srgb, var(--md-sys-color-tertiary-container) 40%, transparent);
   color: var(--md-sys-color-on-tertiary-container);
   cursor: pointer;
-  transition: background-color 0.2s ease;
-  padding: 0;
+  transition: background-color var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard);
+  padding: 4px;
+  margin: -4px;
 }
 
 .custom-chip-delete:hover {
@@ -372,7 +478,7 @@ body {
   color: var(--md-sys-color-on-secondary-container);
   font: var(--md-sys-typescale-label-large);
   cursor: pointer;
-  transition: box-shadow 0.2s ease, background-color 0.2s ease;
+  transition: box-shadow var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard), background-color var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard);
   position: relative;
   overflow: hidden;
 }
@@ -402,7 +508,7 @@ body {
   border: 2px dashed var(--md-sys-color-outline-variant);
   padding: 16px;
   min-height: 120px;
-  transition: background-color 0.3s ease, border-color 0.3s ease;
+  transition: background-color var(--md-sys-motion-duration-medium) var(--md-sys-motion-easing-standard), border-color var(--md-sys-motion-duration-medium) var(--md-sys-motion-easing-standard);
 }
 
 .assembly-card--has-items {
@@ -453,18 +559,18 @@ body {
 .md-input-chip {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  height: 32px;
-  padding: 0 4px 0 12px;
+  gap: 8px;
+  height: 36px;
+  padding: 0 8px 0 12px;
   border-radius: var(--md-sys-shape-corner-small);
   border: 1px solid var(--md-sys-color-outline);
   background-color: color-mix(in srgb, var(--md-sys-color-primary) 12%, transparent);
   color: var(--md-sys-color-on-surface);
   font: var(--md-sys-typescale-label-large);
   cursor: grab;
-  transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease, opacity 0.15s ease;
+  transition: background-color var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard), border-color var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard), box-shadow var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard), transform var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard), opacity var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard);
   user-select: none;
-  animation: chipEnter 0.2s ease forwards;
+  animation: chipEnter var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard) forwards;
 }
 
 .md-input-chip:hover {
@@ -483,11 +589,11 @@ body {
 /* Drop indicator between blocks */
 .drop-indicator {
   width: 4px;
-  min-height: 32px;
+  min-height: 36px;
   border-radius: 2px;
   background-color: var(--md-sys-color-primary);
   flex-shrink: 0;
-  transition: opacity 0.15s ease;
+  transition: opacity var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard);
   opacity: 0;
 }
 
@@ -513,6 +619,117 @@ body {
   background-color: color-mix(in srgb, var(--md-sys-color-secondary) 20%, transparent);
 }
 
+/* Swap Group markers in assembly area */
+.md-input-chip--swap-group-start {
+  background-color: var(--swap-group-bg);
+  border-color: var(--swap-group-color);
+  gap: 4px;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.md-input-chip--swap-group-start:hover {
+  background-color: var(--swap-group-bg-hover);
+}
+
+.md-input-chip--swap-group-start .md-input-chip__text {
+  color: var(--swap-group-color);
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.md-input-chip--swap-group-start .swap-group-full-label {
+  max-width: 0;
+  opacity: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 400;
+  font-size: 12px;
+  color: var(--swap-group-color);
+  transition: max-width var(--md-sys-motion-duration-medium) var(--md-sys-motion-easing-standard), opacity var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard), margin var(--md-sys-motion-duration-medium) var(--md-sys-motion-easing-standard);
+  margin-left: 0;
+}
+
+.md-input-chip--swap-group-start:hover .swap-group-full-label {
+  max-width: 100px;
+  opacity: 1;
+  margin-left: 2px;
+}
+
+.md-input-chip--swap-group-start .md-input-chip__delete {
+  width: 0;
+  opacity: 0;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+  transition: width var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard), opacity var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard);
+}
+
+.md-input-chip--swap-group-start:hover .md-input-chip__delete {
+  width: 24px;
+  opacity: 1;
+}
+
+.md-input-chip--swap-group-end {
+  background-color: var(--swap-group-bg);
+  border-color: var(--swap-group-color);
+  gap: 4px;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.md-input-chip--swap-group-end:hover {
+  background-color: var(--swap-group-bg-hover);
+}
+
+.md-input-chip--swap-group-end .md-input-chip__text {
+  color: var(--swap-group-color);
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.md-input-chip--swap-group-end .swap-group-full-label {
+  max-width: 0;
+  opacity: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 400;
+  font-size: 12px;
+  color: var(--swap-group-color);
+  transition: max-width var(--md-sys-motion-duration-medium) var(--md-sys-motion-easing-standard), opacity var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard), margin var(--md-sys-motion-duration-medium) var(--md-sys-motion-easing-standard);
+  margin-right: 0;
+}
+
+.md-input-chip--swap-group-end:hover .swap-group-full-label {
+  max-width: 100px;
+  opacity: 1;
+  margin-right: 2px;
+}
+
+.md-input-chip--swap-group-end .md-input-chip__delete {
+  width: 0;
+  opacity: 0;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+  transition: width var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard), opacity var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard);
+}
+
+.md-input-chip--swap-group-end:hover .md-input-chip__delete {
+  width: 24px;
+  opacity: 1;
+}
+
+/* Blocks inside swap group */
+.md-input-chip--in-swap-group {
+  background-color: var(--swap-group-in-bg);
+  border-color: var(--swap-group-in-border);
+}
+
 .md-input-chip__text {
   font-family: 'Roboto Mono', monospace;
   font-size: 13px;
@@ -531,8 +748,9 @@ body {
   background: transparent;
   color: var(--md-sys-color-on-surface-variant);
   cursor: pointer;
-  transition: background-color 0.2s ease;
-  padding: 0;
+  transition: background-color var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard);
+  padding: 6px;
+  margin: -6px -2px;
 }
 
 .md-input-chip__delete:hover {
@@ -573,7 +791,7 @@ body {
   font: var(--md-sys-typescale-body-large);
   font-family: 'Roboto Mono', monospace;
   outline: none;
-  transition: border-color 0.2s ease;
+  transition: border-color var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard);
 }
 
 .md-outlined-text-field__input:hover {
@@ -615,7 +833,7 @@ body {
   color: var(--md-sys-color-on-primary);
   font: var(--md-sys-typescale-label-large);
   cursor: pointer;
-  transition: box-shadow 0.2s ease, background-color 0.2s ease;
+  transition: box-shadow var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard), background-color var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard);
   position: relative;
   overflow: hidden;
   white-space: nowrap;
@@ -639,6 +857,21 @@ body {
   font-size: 18px;
 }
 
+.md-filled-button--loading .material-symbols-outlined {
+  animation: md3-spin 1s linear infinite;
+}
+
+.md-filled-button:disabled {
+  opacity: 0.38;
+  cursor: default;
+  pointer-events: none;
+}
+
+@keyframes md3-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
 /* ========== MD3 Switch ========== */
 .md-switch {
   display: inline-flex;
@@ -655,7 +888,7 @@ body {
   border-radius: var(--md-sys-shape-corner-full);
   background-color: var(--md-sys-color-surface-container-highest);
   border: 2px solid var(--md-sys-color-outline);
-  transition: background-color 0.2s ease, border-color 0.2s ease;
+  transition: background-color var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard), border-color var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard);
   flex-shrink: 0;
 }
 
@@ -668,7 +901,7 @@ body {
   height: 16px;
   border-radius: var(--md-sys-shape-corner-full);
   background-color: var(--md-sys-color-outline);
-  transition: transform 0.2s ease, background-color 0.2s ease, width 0.2s ease, height 0.2s ease, left 0.2s ease;
+  transition: transform var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard), background-color var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard), width var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard), height var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard), left var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard);
 }
 
 .md-switch input {
@@ -716,7 +949,7 @@ body {
   opacity: 0;
   max-height: 0;
   overflow: hidden;
-  transition: opacity 0.3s ease, max-height 0.3s ease;
+  transition: opacity var(--md-sys-motion-duration-medium) var(--md-sys-motion-easing-standard), max-height var(--md-sys-motion-duration-medium) var(--md-sys-motion-easing-standard);
 }
 
 .increment-fields.visible {
@@ -734,7 +967,7 @@ body {
   background-color: var(--md-sys-color-surface-container-low);
   border-radius: var(--md-sys-shape-corner-large);
   padding: 16px;
-  transition: background-color 0.3s ease;
+  transition: background-color var(--md-sys-motion-duration-medium) var(--md-sys-motion-easing-standard);
 }
 
 .command-card__code {
@@ -745,6 +978,9 @@ body {
   word-break: break-all;
   white-space: pre-wrap;
   min-height: 24px;
+  max-height: 400px;
+  overflow-y: auto;
+  position: relative;
 }
 
 .command-card__code .cmd-prefix {
@@ -766,10 +1002,79 @@ body {
   font-style: italic;
 }
 
-.command-actions {
+.command-card__warning {
+  color: var(--md-sys-color-on-error-container);
+  font: var(--md-sys-typescale-body-small);
+  padding: 6px 12px;
+  margin-bottom: 8px;
+  background: var(--md-sys-color-error-container);
+  border-radius: var(--md-sys-shape-corner-small);
+  text-align: center;
+}
+
+.command-card__label {
+  font: var(--md-sys-typescale-label-small);
+  color: var(--md-sys-color-on-surface-variant);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.command-card__divider {
+  border: none;
+  border-top: 1px dashed var(--md-sys-color-outline-variant);
+  margin: 10px 0;
+}
+
+.command-scroll-spacer {
+  position: relative;
+}
+
+.command-scroll-viewport {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.command-scroll-item {
+  overflow: hidden;
+  border-bottom: 1px dashed var(--md-sys-color-outline-variant);
+  box-sizing: border-box;
+  padding: 4px 0;
+}
+
+.command-scroll-item .command-card__label {
+  font-size: 10px;
+  line-height: 14px;
+  margin-bottom: 2px;
+}
+
+.command-card__header {
   display: flex;
-  justify-content: flex-end;
-  margin-top: 12px;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.keyspace-layout {
+  flex: 1;
+  min-width: 0;
+}
+
+.keyspace-divider {
+  width: 1px;
+  background: var(--md-sys-color-outline-variant);
+  align-self: stretch;
+  margin: 0 12px;
+}
+
+.command-card__header .command-card__code {
+  flex: 1;
+  min-width: 0;
+}
+
+.command-card__header .md-filled-button {
+  align-self: flex-end;
 }
 
 /* ========== Keyspace ========== */
@@ -777,7 +1082,7 @@ body {
   background-color: var(--md-sys-color-surface-container-low);
   border-radius: var(--md-sys-shape-corner-large);
   padding: 16px;
-  transition: background-color 0.3s ease;
+  transition: background-color var(--md-sys-motion-duration-medium) var(--md-sys-motion-easing-standard);
   display: flex;
   align-items: center;
   gap: 12px;
@@ -807,14 +1112,14 @@ body {
 .md-dialog-overlay {
   position: fixed;
   inset: 0;
-  background-color: rgba(0,0,0,0.4);
+  background-color: color-mix(in srgb, var(--md-sys-color-on-surface) 40%, transparent);
   z-index: 200;
   display: flex;
   align-items: center;
   justify-content: center;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.2s ease;
+  transition: opacity var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard);
 }
 
 .md-dialog-overlay.visible {
@@ -831,7 +1136,7 @@ body {
   width: calc(100% - 48px);
   box-shadow: var(--md-sys-elevation-3);
   transform: scale(0.9);
-  transition: transform 0.2s ease, background-color 0.3s ease;
+  transition: transform var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard), background-color var(--md-sys-motion-duration-medium) var(--md-sys-motion-easing-standard);
 }
 
 .md-dialog-overlay.visible .md-dialog {
@@ -868,7 +1173,7 @@ body {
   color: var(--md-sys-color-primary);
   font: var(--md-sys-typescale-label-large);
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: background-color var(--md-sys-motion-duration-short) var(--md-sys-motion-easing-standard);
   white-space: nowrap;
 }
 
@@ -894,7 +1199,7 @@ body {
   border-radius: var(--md-sys-shape-corner-extra-small);
   box-shadow: var(--md-sys-elevation-3);
   z-index: 300;
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform var(--md-sys-motion-duration-medium) var(--md-sys-motion-easing-standard);
   max-width: calc(100% - 48px);
   text-align: center;
 }
@@ -929,17 +1234,18 @@ body {
   }
 
   .md-assist-chip {
-    height: 36px;
     padding: 0 12px;
-  }
-
-  .md-input-chip {
-    height: 36px;
   }
 
   .md-input-chip__delete {
     width: 28px;
     height: 28px;
+  }
+
+  .md-input-chip--swap-group-start .md-input-chip__delete,
+  .md-input-chip--swap-group-end .md-input-chip__delete {
+    width: 28px;
+    opacity: 1;
   }
 
   .md-input-chip__delete .material-symbols-outlined {
@@ -982,7 +1288,7 @@ body {
       <div class="top-app-bar__title">MP64 Command Builder</div>
       <div class="top-app-bar__subtitle">maskprocessor command generator</div>
     </div>
-    <div style="display:flex;align-items:center;gap:4px;">
+    <div class="top-app-bar__actions">
       <a class="github-link" href="https://github.com/Requiem1ovo/Maskprocessor-Command-Generator/" target="_blank" rel="noopener noreferrer">
         <svg class="github-link__icon" viewBox="0 0 16 16" width="20" height="20"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
         <span class="github-link__label">GitHub</span>
@@ -1004,47 +1310,63 @@ body {
     </div>
     <div class="charset-chips" id="builtinChips">
       <div class="charset-item">
-        <button class="md-assist-chip" data-charset="?l" data-type="builtin" draggable="true" title="?l Lowercase">
+        <button class="md-assist-chip" data-charset="?l" data-type="builtin" draggable="true" title="?l Lowercase" aria-label="?l Lowercase charset">
           <span class="md-assist-chip__placeholder">?l</span>
           <span class="md-assist-chip__label">Lowercase</span>
         </button>
         <span class="charset-item__hint">abcdefghijklmnopqrstuvwxyz</span>
       </div>
       <div class="charset-item">
-        <button class="md-assist-chip" data-charset="?u" data-type="builtin" draggable="true" title="?u Uppercase">
+        <button class="md-assist-chip" data-charset="?u" data-type="builtin" draggable="true" title="?u Uppercase" aria-label="?u Uppercase charset">
           <span class="md-assist-chip__placeholder">?u</span>
           <span class="md-assist-chip__label">Uppercase</span>
         </button>
         <span class="charset-item__hint">ABCDEFGHIJKLMNOPQRSTUVWXYZ</span>
       </div>
       <div class="charset-item">
-        <button class="md-assist-chip" data-charset="?d" data-type="builtin" draggable="true" title="?d Digits">
+        <button class="md-assist-chip" data-charset="?d" data-type="builtin" draggable="true" title="?d Digits" aria-label="?d Digits charset">
           <span class="md-assist-chip__placeholder">?d</span>
           <span class="md-assist-chip__label">Digits</span>
         </button>
         <span class="charset-item__hint">0123456789</span>
       </div>
       <div class="charset-item">
-        <button class="md-assist-chip" data-charset="?s" data-type="builtin" draggable="true" title="?s Special">
+        <button class="md-assist-chip" data-charset="?s" data-type="builtin" draggable="true" title="?s Special" aria-label="?s Special charset">
           <span class="md-assist-chip__placeholder">?s</span>
           <span class="md-assist-chip__label">Special</span>
         </button>
         <span class="charset-item__hint">«space»!"#$%&amp;'()*+,-./:;&lt;=&gt;?@[]^_`{|}~</span>
       </div>
       <div class="charset-item">
-        <button class="md-assist-chip" data-charset="?a" data-type="builtin" draggable="true" title="?a All">
+        <button class="md-assist-chip" data-charset="?a" data-type="builtin" draggable="true" title="?a All" aria-label="?a All charset">
           <span class="md-assist-chip__placeholder">?a</span>
           <span class="md-assist-chip__label">All</span>
         </button>
         <span class="charset-item__hint">?l?u?d?s</span>
       </div>
       <div class="charset-item">
-        <button class="md-assist-chip" data-charset="?b" data-type="builtin" draggable="true" title="?b Binary">
+        <button class="md-assist-chip" data-charset="?b" data-type="builtin" draggable="true" title="?b Binary" aria-label="?b Binary charset">
           <span class="md-assist-chip__placeholder">?b</span>
           <span class="md-assist-chip__label">Binary</span>
         </button>
         <span class="charset-item__hint">0x00 - 0xff</span>
       </div>
+    </div>
+  </section>
+
+  <!-- Swap Group -->
+  <section class="section">
+    <div class="section__header">
+      <span class="material-symbols-outlined">change_circle</span>
+      Swap Group
+    </div>
+    <div class="swap-group-chips">
+      <button class="md-assist-chip md-assist-chip--swap-group-start" id="swapGroupStartBtn" draggable="true" title="Start Swap Group - marks the beginning of a permutation group" aria-label="Start swap group">
+        <span class="md-assist-chip__label">{ Start Group</span>
+      </button>
+      <button class="md-assist-chip md-assist-chip--swap-group-end" id="swapGroupEndBtn" draggable="true" title="End Swap Group - marks the end of a permutation group" aria-label="End swap group">
+        <span class="md-assist-chip__label">End Group }</span>
+      </button>
     </div>
   </section>
 
@@ -1056,7 +1378,7 @@ body {
     </div>
     <div class="custom-charset-row">
       <div class="charset-chips" id="customChips"></div>
-      <button class="md-filled-tonal-button" id="addCustomCharsetBtn">
+      <button class="md-filled-tonal-button" id="addCustomCharsetBtn" aria-label="Add custom charset">
         <span class="material-symbols-outlined">add</span>
         Add Custom Charset
       </button>
@@ -1070,7 +1392,7 @@ body {
       Assembly Area
     </div>
     <div class="assembly-card" id="assemblyCard">
-      <div class="assembly-blocks" id="assemblyBlocks">
+      <div class="assembly-blocks" id="assemblyBlocks" role="list" aria-label="Command assembly area">
         <div class="assembly-empty" id="assemblyEmpty">
           <span class="material-symbols-outlined">touch_app</span>
           <span class="assembly-empty__text">Click or drag charset blocks above to start building your mask</span>
@@ -1078,9 +1400,9 @@ body {
       </div>
       <div class="static-input-row">
         <div class="md-outlined-text-field">
-          <input type="text" class="md-outlined-text-field__input" id="staticTextInput" placeholder="Type static text (e.g. password)" autocomplete="off">
+          <input type="text" class="md-outlined-text-field__input" id="staticTextInput" placeholder="Type static text (e.g. password)" autocomplete="off" aria-label="Static text input">
         </div>
-        <button class="md-filled-tonal-button" id="addStaticBtn">
+        <button class="md-filled-tonal-button" id="addStaticBtn" aria-label="Add static text">
           <span class="material-symbols-outlined">add</span>
           Add
         </button>
@@ -1096,19 +1418,26 @@ body {
     </div>
     <div class="options-row">
       <label class="md-switch">
-        <input type="checkbox" id="incrementSwitch">
+        <input type="checkbox" id="incrementSwitch" aria-label="Increment mode toggle">
         <span class="md-switch__track">
           <span class="md-switch__thumb"></span>
         </span>
         <span class="md-switch__label">Increment mode</span>
       </label>
+      <label class="md-switch">
+        <input type="checkbox" id="safetyLimitSwitch" checked aria-label="Safety limit toggle">
+        <span class="md-switch__track">
+          <span class="md-switch__thumb"></span>
+        </span>
+        <span class="md-switch__label">Safety limit</span>
+      </label>
       <div class="increment-fields" id="incrementFields">
         <div class="md-outlined-text-field md-outlined-text-field--small">
-          <input type="number" class="md-outlined-text-field__input" id="incrementMin" placeholder="Min" min="1" value="1">
+          <input type="number" class="md-outlined-text-field__input" id="incrementMin" placeholder="Min" min="1" value="1" aria-label="Increment minimum">
         </div>
         <span class="increment-fields__separator">:</span>
         <div class="md-outlined-text-field md-outlined-text-field--small">
-          <input type="number" class="md-outlined-text-field__input" id="incrementMax" placeholder="Max" min="1" value="8">
+          <input type="number" class="md-outlined-text-field__input" id="incrementMax" placeholder="Max" min="1" value="8" aria-label="Increment maximum">
         </div>
       </div>
     </div>
@@ -1121,14 +1450,14 @@ body {
       Generated Command
     </div>
     <div class="command-card">
-      <div class="command-card__code" id="commandOutput">
-        <span class="command-card__empty">Add blocks to the assembly area to generate a command</span>
-      </div>
-      <div class="command-actions">
-        <button class="md-filled-button" id="copyBtn">
-          <span class="material-symbols-outlined">content_copy</span>
+      <div class="command-card__header">
+        <button class="md-filled-button" id="copyBtn" aria-label="Copy commands to clipboard">
+          <span class="material-symbols-outlined" id="copyBtnIcon">content_copy</span>
           Copy Command
         </button>
+        <div class="command-card__code" id="commandOutput" role="region" aria-label="Generated commands">
+          <span class="command-card__empty">Add blocks to the assembly area to generate a command</span>
+        </div>
       </div>
     </div>
   </section>
@@ -1139,7 +1468,7 @@ body {
       <span class="material-symbols-outlined">calculate</span>
       Keyspace
     </div>
-    <div class="keyspace-card" id="keyspaceCard">
+    <div class="keyspace-card" id="keyspaceCard" role="region" aria-label="Keyspace calculation">
       <span class="keyspace-card__empty">Add blocks to calculate keyspace</span>
     </div>
   </section>
@@ -1151,8 +1480,8 @@ body {
   <div class="md-dialog" role="dialog" aria-labelledby="dialogTitle">
     <div class="md-dialog__title" id="dialogTitle">Add Custom Charset</div>
     <div class="md-dialog__content">
-      <div class="md-outlined-text-field" style="width:100%">
-        <input type="text" class="md-outlined-text-field__input" id="customCharsetInput" placeholder="Enter custom characters (e.g. abc123)" autocomplete="off">
+      <div class="md-outlined-text-field md-outlined-text-field--full-width">
+        <input type="text" class="md-outlined-text-field__input" id="customCharsetInput" placeholder="Enter custom characters (e.g. abc123)" autocomplete="off" aria-label="Custom charset characters">
       </div>
     </div>
     <div class="md-dialog__actions">
@@ -1176,7 +1505,12 @@ body {
     nextBlockId: 1,
     incrementEnabled: false,
     incrementMin: 1,
-    incrementMax: 8
+    incrementMax: 8,
+    safetyLimitEnabled: true,
+    cachedUniquePerms: null,  // Cached unique permutations for copy consistency
+    cachedTruncated: false,
+    cachedTotalEstimate: 1,
+    commandList: null  // Command data for virtual scroll rendering
   };
 
   const BUILTIN_CHARSETS = {
@@ -1197,6 +1531,9 @@ body {
     '?b': 256
   };
 
+  const MAX_DISPLAY_COMMANDS = 10000;
+  const SWAP_GROUP_COUNT = 4; // Number of color groups, must match CSS tokens
+
   // ========== DOM References ==========
   const $ = (sel) => document.querySelector(sel);
   const builtinChips = $('#builtinChips');
@@ -1208,6 +1545,7 @@ body {
   const staticTextInput = $('#staticTextInput');
   const addStaticBtn = $('#addStaticBtn');
   const incrementSwitch = $('#incrementSwitch');
+  const safetyLimitSwitch = $('#safetyLimitSwitch');
   const incrementFields = $('#incrementFields');
   const incrementMinInput = $('#incrementMin');
   const incrementMaxInput = $('#incrementMax');
@@ -1221,6 +1559,8 @@ body {
   const dialogCancelBtn = $('#dialogCancelBtn');
   const dialogAddBtn = $('#dialogAddBtn');
   const snackbar = $('#snackbar');
+  const swapGroupStartBtn = $('#swapGroupStartBtn');
+  const swapGroupEndBtn = $('#swapGroupEndBtn');
 
   // ========== Theme ==========
   function initTheme() {
@@ -1243,6 +1583,8 @@ body {
   let snackbarTimeout;
   function showSnackbar(message) {
     snackbar.textContent = message;
+    snackbar.setAttribute('role', 'status');
+    snackbar.setAttribute('aria-live', 'polite');
     snackbar.classList.add('visible');
     clearTimeout(snackbarTimeout);
     snackbarTimeout = setTimeout(() => {
@@ -1255,10 +1597,37 @@ body {
     customCharsetInput.value = '';
     customCharsetDialog.classList.add('visible');
     setTimeout(() => customCharsetInput.focus(), 200);
+    document.addEventListener('keydown', dialogKeyHandler);
   }
 
   function closeDialog() {
     customCharsetDialog.classList.remove('visible');
+    document.removeEventListener('keydown', dialogKeyHandler);
+  }
+
+  function dialogKeyHandler(e) {
+    if (e.key === 'Escape') {
+      closeDialog();
+      return;
+    }
+    // Focus trap: keep Tab within dialog
+    if (e.key === 'Tab' && customCharsetDialog.classList.contains('visible')) {
+      const focusable = customCharsetDialog.querySelectorAll('input, button, [tabindex]:not([tabindex="-1"])');
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey) {
+        if (document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else {
+        if (document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    }
   }
 
   addCustomCharsetBtn.addEventListener('click', () => {
@@ -1277,7 +1646,6 @@ body {
   dialogAddBtn.addEventListener('click', addCustomCharset);
   customCharsetInput.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') addCustomCharset();
-    if (e.key === 'Escape') closeDialog();
   });
 
   function addCustomCharset() {
@@ -1320,9 +1688,10 @@ body {
       chip.dataset.customIndex = cs.index;
       chip.draggable = true;
       chip.title = `?${cs.index} ${cs.chars}`;
+      chip.setAttribute('aria-label', `Custom charset ?${cs.index}: ${cs.chars}`);
       chip.innerHTML = `
         <span class="md-assist-chip__placeholder">?${cs.index}</span>
-        <span class="md-assist-chip__label">${truncate(cs.chars, 10)}</span>
+        <span class="md-assist-chip__label">${escapeHtml(truncate(cs.chars, 10))}</span>
       `;
       chip.addEventListener('click', () => {
         addBlockToAssembly('custom', `?${cs.index}`, `?${cs.index}:${truncate(cs.chars, 8)}`, cs.index, cs.chars);
@@ -1343,6 +1712,7 @@ body {
       const deleteBtn = document.createElement('button');
       deleteBtn.className = 'custom-chip-delete';
       deleteBtn.title = 'Delete custom charset';
+      deleteBtn.setAttribute('aria-label', 'Delete custom charset');
       deleteBtn.innerHTML = '<span class="material-symbols-outlined">close</span>';
       deleteBtn.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -1411,8 +1781,64 @@ body {
     }));
   });
 
+  // ========== Swap Group ==========
+  swapGroupStartBtn.addEventListener('click', () => {
+    addBlockToAssembly('swap-group-start', '', '{');
+    updateCommand();
+  });
+
+  swapGroupStartBtn.addEventListener('dragstart', (e) => {
+    e.dataTransfer.effectAllowed = 'copy';
+    e.dataTransfer.setData('application/json', JSON.stringify({
+      source: 'charset-panel',
+      type: 'swap-group-start',
+      mask: '',
+      label: '{'
+    }));
+  });
+
+  swapGroupEndBtn.addEventListener('click', () => {
+    addBlockToAssembly('swap-group-end', '', '}');
+    updateCommand();
+  });
+
+  swapGroupEndBtn.addEventListener('dragstart', (e) => {
+    e.dataTransfer.effectAllowed = 'copy';
+    e.dataTransfer.setData('application/json', JSON.stringify({
+      source: 'charset-panel',
+      type: 'swap-group-end',
+      mask: '',
+      label: '}'
+    }));
+  });
+
   // ========== Assembly Area ==========
   function addBlockToAssembly(type, mask, label, customIndex, customChars) {
+    // Validate swap group marker pairing
+    if (type === 'swap-group-start') {
+      // Count unclosed groups
+      let openCount = 0;
+      for (const b of state.assemblyBlocks) {
+        if (b.type === 'swap-group-start') openCount++;
+        else if (b.type === 'swap-group-end') openCount--;
+      }
+      if (openCount > 0) {
+        showSnackbar('Close the current Swap Group before starting a new one');
+        return;
+      }
+    }
+    if (type === 'swap-group-end') {
+      let openCount = 0;
+      for (const b of state.assemblyBlocks) {
+        if (b.type === 'swap-group-start') openCount++;
+        else if (b.type === 'swap-group-end') openCount--;
+      }
+      if (openCount <= 0) {
+        showSnackbar('Add a Swap Group start { before end }');
+        return;
+      }
+    }
+
     const block = {
       id: state.nextBlockId++,
       type,
@@ -1426,6 +1852,46 @@ body {
   }
 
   function removeBlockFromAssembly(id) {
+    const blockIndex = state.assemblyBlocks.findIndex(b => b.id === id);
+    if (blockIndex === -1) return;
+
+    const block = state.assemblyBlocks[blockIndex];
+    if (block.type === 'swap-group-start') {
+      // Also remove the matching }
+      let depth = 1;
+      for (let i = blockIndex + 1; i < state.assemblyBlocks.length; i++) {
+        if (state.assemblyBlocks[i].type === 'swap-group-start') depth++;
+        else if (state.assemblyBlocks[i].type === 'swap-group-end') {
+          depth--;
+          if (depth === 0) {
+            // Remove both markers
+            state.assemblyBlocks.splice(i, 1);
+            state.assemblyBlocks.splice(blockIndex, 1);
+            renderAssembly();
+            updateCommand();
+            return;
+          }
+        }
+      }
+    } else if (block.type === 'swap-group-end') {
+      // Also remove the matching {
+      let depth = 1;
+      for (let i = blockIndex - 1; i >= 0; i--) {
+        if (state.assemblyBlocks[i].type === 'swap-group-end') depth++;
+        else if (state.assemblyBlocks[i].type === 'swap-group-start') {
+          depth--;
+          if (depth === 0) {
+            // Remove both markers (remove higher index first)
+            state.assemblyBlocks.splice(blockIndex, 1);
+            state.assemblyBlocks.splice(i, 1);
+            renderAssembly();
+            updateCommand();
+            return;
+          }
+        }
+      }
+    }
+
     state.assemblyBlocks = state.assemblyBlocks.filter(b => b.id !== id);
     renderAssembly();
     updateCommand();
@@ -1461,6 +1927,32 @@ body {
       chip.className = 'md-input-chip';
       chip.draggable = true;
       chip.dataset.blockId = block.id;
+      chip.setAttribute('role', 'listitem');
+
+      // Check if this block is inside a swap group or is a swap group marker
+      if (block.type === 'swap-group-start' || block.type === 'swap-group-end') {
+        // Find which group this marker belongs to
+        const groupInfo = findGroupForMarker(idx);
+        if (groupInfo !== null) {
+          const gi = groupInfo % SWAP_GROUP_COUNT;
+          chip.style.setProperty('--swap-group-color', `var(--swap-group-${gi}-color)`);
+          chip.style.setProperty('--swap-group-bg', `var(--swap-group-${gi}-bg)`);
+          chip.style.setProperty('--swap-group-bg-hover', `var(--swap-group-${gi}-bg-hover)`);
+        }
+        if (block.type === 'swap-group-start') {
+          chip.classList.add('md-input-chip--swap-group-start');
+        } else {
+          chip.classList.add('md-input-chip--swap-group-end');
+        }
+      } else {
+        const groupResult = isInSwapGroup(idx);
+        if (groupResult.inGroup) {
+          chip.classList.add('md-input-chip--in-swap-group');
+          const gi = groupResult.groupIndex % SWAP_GROUP_COUNT;
+          chip.style.setProperty('--swap-group-in-bg', `var(--swap-group-${gi}-in-bg)`);
+          chip.style.setProperty('--swap-group-in-border', `var(--swap-group-${gi}-in-border)`);
+        }
+      }
 
       if (block.type === 'custom') {
         chip.classList.add('md-input-chip--custom');
@@ -1470,17 +1962,35 @@ body {
 
       const textSpan = document.createElement('span');
       textSpan.className = 'md-input-chip__text';
-      textSpan.textContent = block.label;
+
+      if (block.type === 'swap-group-start') {
+        textSpan.textContent = '{';
+        const fullLabel = document.createElement('span');
+        fullLabel.className = 'swap-group-full-label';
+        fullLabel.textContent = ' Start Group';
+        chip.appendChild(textSpan);
+        chip.appendChild(fullLabel);
+      } else if (block.type === 'swap-group-end') {
+        const fullLabel = document.createElement('span');
+        fullLabel.className = 'swap-group-full-label';
+        fullLabel.textContent = 'End Group';
+        textSpan.textContent = '}';
+        chip.appendChild(fullLabel);
+        chip.appendChild(textSpan);
+      } else {
+        textSpan.textContent = block.label;
+        chip.appendChild(textSpan);
+      }
 
       const deleteBtn = document.createElement('button');
       deleteBtn.className = 'md-input-chip__delete';
+      deleteBtn.setAttribute('aria-label', 'Remove from assembly');
       deleteBtn.innerHTML = '<span class="material-symbols-outlined">close</span>';
       deleteBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         removeBlockFromAssembly(block.id);
       });
 
-      chip.appendChild(textSpan);
       chip.appendChild(deleteBtn);
 
       // Only dragstart and dragend on the chip itself
@@ -1530,14 +2040,66 @@ body {
       return state.assemblyBlocks.length;
     }
 
+    // Group chips into rows based on their vertical position
+    const rows = [];
+    let currentRow = [];
+    let currentRowTop = null;
+
     for (let i = 0; i < chips.length; i++) {
       const rect = chips[i].getBoundingClientRect();
-      const midX = rect.left + rect.width / 2;
-      if (clientX < midX) {
-        return i;
+      // A new row starts when the top position changes significantly
+      if (currentRowTop === null || Math.abs(rect.top - currentRowTop) > rect.height / 2) {
+        if (currentRow.length > 0) {
+          rows.push(currentRow);
+        }
+        currentRow = [{ chip: chips[i], rect, index: i }];
+        currentRowTop = rect.top;
+      } else {
+        currentRow.push({ chip: chips[i], rect, index: i });
       }
     }
-    return chips.length;
+    if (currentRow.length > 0) {
+      rows.push(currentRow);
+    }
+
+    // Find which row the cursor is in
+    let targetRow = null;
+    for (const row of rows) {
+      const rowTop = row[0].rect.top;
+      const rowBottom = row[0].rect.bottom;
+      if (clientY >= rowTop && clientY <= rowBottom) {
+        targetRow = row;
+        break;
+      }
+    }
+
+    // If cursor is between rows or not on any row, find the nearest row
+    if (!targetRow) {
+      for (const row of rows) {
+        const rowMidY = row[0].rect.top + row[0].rect.height / 2;
+        if (clientY < rowMidY) {
+          targetRow = row;
+          break;
+        }
+      }
+      // If still no match (cursor below all rows), append to end
+      if (!targetRow) {
+        return state.assemblyBlocks.length;
+      }
+    }
+
+    // Within the target row, find the insertion point by X position
+    for (const item of targetRow) {
+      const midX = item.rect.left + item.rect.width / 2;
+      if (clientX < midX) {
+        return item.index;
+      }
+    }
+
+    // Cursor is to the right of all chips in this row
+    // Return the index after the last chip in this row
+    const lastInRow = targetRow[targetRow.length - 1];
+    return lastInRow.index + 1;
   }
 
   function showDropIndicator(insertIndex) {
@@ -1622,14 +2184,17 @@ body {
 
     if (fromIndex === -1) return;
 
-    // Remove from old position
-    const [movedBlock] = state.assemblyBlocks.splice(fromIndex, 1);
-
     // Adjust insert index if removing from before the target
     let adjustedIndex = insertIndex;
     if (fromIndex < insertIndex) {
       adjustedIndex--;
     }
+
+    // No-op if dropping at the same position
+    if (fromIndex === adjustedIndex) return;
+
+    // Remove from old position
+    const [movedBlock] = state.assemblyBlocks.splice(fromIndex, 1);
 
     state.assemblyBlocks.splice(adjustedIndex, 0, movedBlock);
 
@@ -1662,31 +2227,38 @@ body {
     updateCommand();
   });
 
+  safetyLimitSwitch.addEventListener('change', () => {
+    state.safetyLimitEnabled = safetyLimitSwitch.checked;
+    updateCommand();
+  });
+
   incrementMinInput.addEventListener('input', () => {
-    state.incrementMin = parseInt(incrementMinInput.value) || 1;
+    state.incrementMin = Math.max(1, parseInt(incrementMinInput.value) || 1);
+    if (state.incrementMin > state.incrementMax) {
+      state.incrementMax = state.incrementMin;
+      incrementMaxInput.value = state.incrementMax;
+    }
     updateCommand();
   });
 
   incrementMaxInput.addEventListener('input', () => {
-    state.incrementMax = parseInt(incrementMaxInput.value) || 8;
+    state.incrementMax = Math.max(1, parseInt(incrementMaxInput.value) || 8);
+    if (state.incrementMax < state.incrementMin) {
+      state.incrementMin = state.incrementMax;
+      incrementMinInput.value = state.incrementMin;
+    }
     updateCommand();
   });
 
   // ========== Command Generation ==========
-  function updateCommand() {
-    if (state.assemblyBlocks.length === 0) {
-      commandOutput.innerHTML = '<span class="command-card__empty">Add blocks to the assembly area to generate a command</span>';
-      calculateKeyspace();
-      return;
-    }
-
-    // Build mask string
-    const maskParts = state.assemblyBlocks.map(b => b.mask);
+  function buildCommandFromBlocks(blocks) {
+    // Build mask string (exclude swap group markers)
+    const maskParts = blocks.filter(b => b.type !== 'swap-group-start' && b.type !== 'swap-group-end').map(b => b.mask);
     const mask = maskParts.join('');
 
     // Determine which custom charsets are used in the mask
     const usedCustomIndices = new Set();
-    state.assemblyBlocks.forEach(b => {
+    blocks.forEach(b => {
       if (b.type === 'custom' && b.customIndex) {
         usedCustomIndices.add(b.customIndex);
       }
@@ -1696,7 +2268,6 @@ body {
     const charsetOptions = [];
     state.customCharsets.forEach(cs => {
       if (usedCustomIndices.has(cs.index)) {
-        // Need to escape special chars in the charset for shell display
         charsetOptions.push(`-${cs.index} ${cs.chars}`);
       }
     });
@@ -1713,60 +2284,408 @@ body {
     if (incrementOption) parts.push(incrementOption);
     parts.push(mask);
 
-    const fullCommand = parts.join(' ');
+    return {
+      command: parts.join(' '),
+      charsetOptions,
+      incrementOption,
+      mask
+    };
+  }
 
-    // Render with syntax highlighting
+  // ========== Swap Group Helpers ==========
+  function factorial(n) {
+    if (n > 20) return Infinity;
+    let result = 1;
+    for (let i = 2; i <= n; i++) result *= i;
+    return result;
+  }
+
+  function isInSwapGroup(blockIdx) {
+    // Check if the block at blockIdx is between a swap-group-start and swap-group-end
+    // Returns { inGroup, groupIndex }
+    let groupDepth = 0;
+    let currentGroupIndex = -1;
+    let groupCounter = 0;
+    for (let i = 0; i < state.assemblyBlocks.length; i++) {
+      if (state.assemblyBlocks[i].type === 'swap-group-start') {
+        if (groupDepth === 0) {
+          currentGroupIndex = groupCounter;
+          groupCounter++;
+        }
+        groupDepth++;
+      } else if (state.assemblyBlocks[i].type === 'swap-group-end') {
+        groupDepth = Math.max(0, groupDepth - 1);
+        if (groupDepth === 0) {
+          currentGroupIndex = -1;
+        }
+      } else if (i === blockIdx && groupDepth > 0) {
+        return { inGroup: true, groupIndex: currentGroupIndex };
+      }
+    }
+    return { inGroup: false, groupIndex: null };
+  }
+
+  function findGroupForMarker(blockIdx) {
+    // Find which group a { or } at blockIdx belongs to
+    let groupCounter = 0;
+    for (let i = 0; i < state.assemblyBlocks.length; i++) {
+      if (state.assemblyBlocks[i].type === 'swap-group-start') {
+        if (i === blockIdx) return groupCounter;
+        // Find matching end
+        let depth = 1;
+        let j = i + 1;
+        for (; j < state.assemblyBlocks.length; j++) {
+          if (state.assemblyBlocks[j].type === 'swap-group-start') depth++;
+          else if (state.assemblyBlocks[j].type === 'swap-group-end') {
+            depth--;
+            if (depth === 0) break;
+          }
+        }
+        if (j === blockIdx) return groupCounter;
+        groupCounter++;
+        i = j; // Skip past this group
+      }
+    }
+    return null;
+  }
+
+  function getAllSwapGroupInfos() {
+    const blocks = state.assemblyBlocks;
+    const groups = [];
+    let i = 0;
+    while (i < blocks.length) {
+      if (blocks[i].type === 'swap-group-start') {
+        const startIdx = i;
+        let endIdx = -1;
+        for (let j = i + 1; j < blocks.length; j++) {
+          if (blocks[j].type === 'swap-group-end') {
+            endIdx = j;
+            break;
+          }
+        }
+        if (endIdx !== -1) {
+          const innerBlocks = blocks.slice(startIdx + 1, endIdx).filter(b => b.type !== 'swap-group-start' && b.type !== 'swap-group-end');
+          groups.push({
+            startIdx,
+            endIdx,
+            innerBlocks,
+            k: innerBlocks.length,
+            groupIndex: groups.length
+          });
+          i = endIdx + 1;
+          continue;
+        }
+      }
+      i++;
+    }
+    return groups.length > 0 ? groups : null;
+  }
+
+  function hasSwapGroup() {
+    const starts = state.assemblyBlocks.filter(b => b.type === 'swap-group-start').length;
+    const ends = state.assemblyBlocks.filter(b => b.type === 'swap-group-end').length;
+    return starts > 0 && starts === ends;
+  }
+
+  function getPermutations(arr, maxCount) {
+    if (arr.length <= 1) return [arr];
+    const result = [];
+    for (let i = 0; i < arr.length; i++) {
+      const rest = [...arr.slice(0, i), ...arr.slice(i + 1)];
+      const subMax = (maxCount && Number.isFinite(maxCount)) ? maxCount - result.length : undefined;
+      const perms = getPermutations(rest, subMax);
+      for (const perm of perms) {
+        result.push([arr[i], ...perm]);
+        if (Number.isFinite(maxCount) && result.length >= maxCount) return result;
+      }
+    }
+    return result;
+  }
+
+  function renderCommandHtml(label, cmdResult) {
+    let html = '';
+    if (label) {
+      html += `<div class="command-card__label">${label}</div>`;
+    }
+    html += renderCommandText(cmdResult);
+    return html;
+  }
+
+  function renderCommandText(cmdResult) {
     let html = '<span class="cmd-prefix">mp64</span>';
-    charsetOptions.forEach(opt => {
+    cmdResult.charsetOptions.forEach(opt => {
       html += ` <span class="cmd-option">${escapeHtml(opt)}</span>`;
     });
-    if (incrementOption) {
-      html += ` <span class="cmd-option">${escapeHtml(incrementOption)}</span>`;
+    if (cmdResult.incrementOption) {
+      html += ` <span class="cmd-option">${escapeHtml(cmdResult.incrementOption)}</span>`;
     }
-    html += ` <span class="cmd-mask">${escapeHtml(mask)}</span>`;
-
-    commandOutput.innerHTML = html;
-    calculateKeyspace();
+    html += ` <span class="cmd-mask">${escapeHtml(cmdResult.mask)}</span>`;
+    return html;
   }
 
-  function escapeHtml(str) {
-    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-  }
+  // ========== Virtual Scroll for Command Output ==========
+  const COMMAND_LINE_HEIGHT = 48; // Estimated height per command (label + command + divider)
+  const VISIBLE_BUFFER = 5;       // Extra items rendered above/below viewport
+  let virtualScrollHandler = null; // Track scroll listener for cleanup
 
-  // ========== Keyspace Calculation ==========
-  function calculateKeyspace() {
-    if (state.assemblyBlocks.length === 0) {
-      keyspaceCard.innerHTML = '<span class="keyspace-card__empty">Add blocks to calculate keyspace</span>';
+  function renderVirtualScroll() {
+    const list = state.commandList;
+    if (!list || list.length === 0) return;
+
+    // Remove previous scroll handler
+    if (virtualScrollHandler) {
+      commandOutput.removeEventListener('scroll', virtualScrollHandler);
+      virtualScrollHandler = null;
+    }
+
+    // Warning message
+    let warningHtml = '';
+    if (state.cachedTruncated) {
+      const estimateText = Number.isFinite(state.cachedTotalEstimate)
+        ? `~${state.cachedTotalEstimate.toLocaleString()} estimated`
+        : 'a very large number of';
+      warningHtml = `<div class="command-card__warning">Showing first ${list.length.toLocaleString()} of ${estimateText} commands</div>`;
+    }
+
+    if (list.length <= 50) {
+      // Small list: render directly, no virtual scroll needed
+      let html = warningHtml;
+      for (const item of list) {
+        html += renderCommandHtml(item.label, item.cmd);
+      }
+      commandOutput.innerHTML = html;
       return;
     }
 
+    // Virtual scroll: create spacer + viewport
+    const totalHeight = list.length * COMMAND_LINE_HEIGHT;
+    commandOutput.innerHTML = `
+      ${warningHtml}
+      <div class="command-scroll-spacer" style="height:${totalHeight}px">
+        <div class="command-scroll-viewport" id="commandViewport"></div>
+      </div>
+    `;
+
+    const viewport = document.getElementById('commandViewport');
+
+    // Initial render
+    renderVisibleCommands(viewport, list, 0);
+
+    // Scroll handler with requestAnimationFrame throttle
+    let scrollRaf = null;
+    virtualScrollHandler = () => {
+      if (scrollRaf) return;
+      scrollRaf = requestAnimationFrame(() => {
+        renderVisibleCommands(viewport, list, commandOutput.scrollTop);
+        scrollRaf = null;
+      });
+    };
+    commandOutput.addEventListener('scroll', virtualScrollHandler);
+  }
+
+  function renderVisibleCommands(viewport, list, scrollTop) {
+    const containerHeight = commandOutput.clientHeight;
+    const startIndex = Math.max(0, Math.floor(scrollTop / COMMAND_LINE_HEIGHT) - VISIBLE_BUFFER);
+    const endIndex = Math.min(list.length, Math.ceil((scrollTop + containerHeight) / COMMAND_LINE_HEIGHT) + VISIBLE_BUFFER);
+
+    let html = '';
+    for (let i = startIndex; i < endIndex; i++) {
+      html += `<div class="command-scroll-item" style="height:${COMMAND_LINE_HEIGHT}px">`;
+      if (list[i].label) html += `<div class="command-card__label">${list[i].label}</div>`;
+      html += renderCommandText(list[i].cmd);
+      html += '</div>';
+    }
+
+    viewport.style.transform = `translateY(${startIndex * COMMAND_LINE_HEIGHT}px)`;
+    viewport.innerHTML = html;
+  }
+
+  function updateCommand() {
+    state.cachedUniquePerms = null;
+    state.cachedTruncated = false;
+    state.cachedTotalEstimate = 1;
+    state.commandList = null;
+
+    // Terminate any in-flight display worker
+    if (activeDisplayWorker) {
+      activeDisplayWorker.terminate();
+      activeDisplayWorker = null;
+    }
+
+    if (state.assemblyBlocks.length === 0) {
+      commandOutput.innerHTML = '<span class="command-card__empty">Add blocks to the assembly area to generate a command</span>';
+      calculateKeyspace(null);
+      return;
+    }
+
+    const groups = getAllSwapGroupInfos();
+
+    // Check for unclosed swap group
+    let openCount = 0;
+    for (const b of state.assemblyBlocks) {
+      if (b.type === 'swap-group-start') openCount++;
+      else if (b.type === 'swap-group-end') openCount--;
+    }
+    if (openCount > 0) {
+      commandOutput.innerHTML = '<span class="command-card__empty">Swap Group is not closed — add } to complete the group</span>';
+      calculateKeyspace(null);
+      return;
+    }
+    if (openCount < 0) {
+      commandOutput.innerHTML = '<span class="command-card__empty">Swap Group } without matching {</span>';
+      calculateKeyspace(null);
+      return;
+    }
+
+    if (!groups || groups.every(g => g.k < 2)) {
+      // No swap groups or not enough inner blocks - single command
+      const original = buildCommandFromBlocks(state.assemblyBlocks);
+      commandOutput.innerHTML = renderCommandHtml(null, original);
+      calculateKeyspace(null);
+    } else {
+      // Use Worker for async computation to avoid UI freeze
+      commandOutput.innerHTML = '<span class="command-card__empty">Generating commands\u2026</span>';
+
+      const serializableGroups = groups.map(g => ({
+        startIdx: g.startIdx,
+        endIdx: g.endIdx,
+        innerBlocks: g.innerBlocks.map(b => ({ type: b.type, mask: b.mask, label: b.label, customIndex: b.customIndex, customChars: b.customChars })),
+        k: g.k,
+        groupIndex: g.groupIndex
+      }));
+      const serializableBlocks = state.assemblyBlocks.map(b => ({ type: b.type, mask: b.mask, label: b.label, customIndex: b.customIndex, customChars: b.customChars }));
+
+      activeDisplayWorker = new Worker(workerUrl);
+      activeDisplayWorker.onmessage = (e) => {
+        if (e.data.error) {
+          commandOutput.innerHTML = '<span class="command-card__empty">Error generating commands</span>';
+          calculateKeyspace(null);
+        } else {
+          const { perms, truncated, totalEstimate } = e.data;
+          state.cachedUniquePerms = perms;
+          state.cachedTruncated = truncated;
+          state.cachedTotalEstimate = totalEstimate;
+          state.commandList = perms.map((p, i) => ({
+            label: i === 0 ? 'Original' : `Swapped ${i}`,
+            cmd: p.cmd
+          }));
+          renderVirtualScroll();
+          calculateKeyspace(perms);
+        }
+        activeDisplayWorker.terminate();
+        activeDisplayWorker = null;
+      };
+      activeDisplayWorker.postMessage({
+        mode: 'display',
+        groups: serializableGroups,
+        assemblyBlocks: serializableBlocks,
+        customCharsets: state.customCharsets,
+        incrementEnabled: state.incrementEnabled,
+        incrementMin: state.incrementMin,
+        incrementMax: state.incrementMax,
+        maxResults: MAX_DISPLAY_COMMANDS,
+        safetyLimitEnabled: state.safetyLimitEnabled
+      });
+    }
+  }
+
+  function escapeHtml(str) {
+    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
+  // ========== Keyspace Calculation ==========
+  function calculateKeyspaceForBlocks(blocks) {
     let totalKeyspace = 1;
     const blockSizes = [];
 
-    for (const block of state.assemblyBlocks) {
+    for (const block of blocks) {
       let size = 1;
       if (block.type === 'builtin') {
         size = BUILTIN_CHARSET_SIZES[block.mask] || 1;
       } else if (block.type === 'custom' && block.customChars) {
-        // Count unique characters in custom charset
         size = new Set(block.customChars).size;
+      } else if (block.type === 'swap-group-start' || block.type === 'swap-group-end') {
+        continue; // Skip swap group markers
       } else if (block.type === 'static') {
-        size = 1; // static text is fixed, only 1 possibility
+        size = 1; // Static text has exactly one possible value
       }
       blockSizes.push({ label: block.label, size });
       totalKeyspace *= size;
     }
 
-    // Format large numbers
-    const formatted = formatLargeNumber(totalKeyspace);
-    const detail = blockSizes.map(b => `${b.label}: ${b.size.toLocaleString()}`).join(' × ');
+    return { totalKeyspace, blockSizes };
+  }
 
-    keyspaceCard.innerHTML = `
-      <div style="flex:1;min-width:0">
-        <div class="keyspace-card__value">${formatted}</div>
-        <div class="keyspace-card__detail">${escapeHtml(detail)}</div>
-      </div>
-    `;
+  function calculateKeyspace(cachedUniquePerms) {
+    if (state.assemblyBlocks.length === 0) {
+      keyspaceCard.innerHTML = '<span class="keyspace-card__empty">Add blocks to calculate keyspace</span>';
+      return;
+    }
+
+    const groups = getAllSwapGroupInfos();
+
+    if (!groups || groups.every(g => g.k < 2)) {
+      // Single command keyspace
+      const result = calculateKeyspaceForBlocks(state.assemblyBlocks);
+      const formatted = formatLargeNumber(result.totalKeyspace);
+      const detail = result.blockSizes.map(b => `${b.label}: ${b.size.toLocaleString()}`).join(' × ');
+
+      keyspaceCard.innerHTML = `
+        <div class="keyspace-layout">
+          <div class="keyspace-card__value">${formatted}</div>
+          <div class="keyspace-card__detail">${escapeHtml(detail)}</div>
+        </div>
+      `;
+    } else {
+      // Use cached perms if available
+      let uniquePerms = cachedUniquePerms;
+      let truncated = state.cachedTruncated ?? false;
+      let totalEstimate = state.cachedTotalEstimate ?? 1;
+
+      if (!uniquePerms || uniquePerms.length === 0) {
+        // Worker result not yet available — show loading
+        keyspaceCard.innerHTML = '<span class="keyspace-card__empty">Calculating\u2026</span>';
+        return;
+      }
+
+      // Original keyspace (from assembly blocks — same as first permutation)
+      const originalResult = calculateKeyspaceForBlocks(state.assemblyBlocks);
+      const originalFormatted = formatLargeNumber(originalResult.totalKeyspace);
+      const originalDetail = originalResult.blockSizes.map(b => `${b.label}: ${b.size.toLocaleString()}`).join(' × ');
+
+      // Calculate total variant count: use mathematical estimate when truncated
+      const swappedVariantCount = truncated ? (totalEstimate - 1) : (uniquePerms.length - 1);
+
+      if (swappedVariantCount === 0) {
+        keyspaceCard.innerHTML = `
+          <div class="keyspace-layout">
+            <div class="keyspace-card__value">${originalFormatted}</div>
+            <div class="keyspace-card__detail">${escapeHtml(originalDetail)}</div>
+          </div>
+        `;
+      } else {
+        const variantLabel = truncated
+          ? (Number.isFinite(totalEstimate) ? `~${formatLargeNumber(totalEstimate)} estimated` : 'very many estimated')
+          : `${swappedVariantCount} variants`;
+        const totalSwappedKeyspace = originalResult.totalKeyspace * swappedVariantCount;
+        const swappedFormatted = formatLargeNumber(totalSwappedKeyspace);
+
+        let html = `<div class="keyspace-layout">
+          <div class="command-card__label">Original</div>
+          <div class="keyspace-card__value">${originalFormatted}</div>
+          <div class="keyspace-card__detail">${escapeHtml(originalDetail)}</div>
+        </div>`;
+
+        html += `<div class="keyspace-divider"></div>`;
+        html += `<div class="keyspace-layout">
+          <div class="command-card__label">Swapped (${variantLabel})</div>
+          <div class="keyspace-card__value">${swappedFormatted}</div>
+          <div class="keyspace-card__detail">${originalFormatted} × ${variantLabel}</div>
+        </div>`;
+
+        keyspaceCard.innerHTML = html;
+      }
+    }
   }
 
   function formatLargeNumber(n) {
@@ -1781,59 +2700,269 @@ body {
     return n.toLocaleString();
   }
 
-  // ========== Copy ==========
-  copyBtn.addEventListener('click', () => {
-    if (state.assemblyBlocks.length === 0) {
-      showSnackbar('No command to copy');
-      return;
+  // ========== Copy (with Web Worker for background computation) ==========
+  const copyBtnIcon = $('#copyBtnIcon');
+
+  // Inline Web Worker script for permutation computation
+  const workerScript = `
+    function factorial(n) {
+      if (n > 20) return Infinity;
+      let result = 1;
+      for (let i = 2; i <= n; i++) result *= i;
+      return result;
     }
 
-    const maskParts = state.assemblyBlocks.map(b => b.mask);
-    const mask = maskParts.join('');
-
-    const usedCustomIndices = new Set();
-    state.assemblyBlocks.forEach(b => {
-      if (b.type === 'custom' && b.customIndex) {
-        usedCustomIndices.add(b.customIndex);
+    function getPermutations(arr, maxCount) {
+      if (arr.length <= 1) return [arr];
+      const result = [];
+      for (let i = 0; i < arr.length; i++) {
+        const rest = [...arr.slice(0, i), ...arr.slice(i + 1)];
+        const subMax = (maxCount && Number.isFinite(maxCount)) ? maxCount - result.length : undefined;
+        const perms = getPermutations(rest, subMax);
+        for (const perm of perms) {
+          result.push([arr[i], ...perm]);
+          if (Number.isFinite(maxCount) && result.length >= maxCount) return result;
+        }
       }
-    });
-
-    const charsetOptions = [];
-    state.customCharsets.forEach(cs => {
-      if (usedCustomIndices.has(cs.index)) {
-        charsetOptions.push(`-${cs.index} ${cs.chars}`);
-      }
-    });
-
-    let incrementOption = '';
-    if (state.incrementEnabled) {
-      incrementOption = `-i ${state.incrementMin}:${state.incrementMax}`;
+      return result;
     }
 
-    const parts = ['mp64'];
-    charsetOptions.forEach(opt => parts.push(opt));
-    if (incrementOption) parts.push(incrementOption);
-    parts.push(mask);
+    function buildPermutedBlocks(combo, groups, assemblyBlocks) {
+      const result = [];
+      let i = 0;
+      while (i < assemblyBlocks.length) {
+        const block = assemblyBlocks[i];
+        if (block.type === 'swap-group-start') {
+          const group = groups.find(g => g.startIdx === i);
+          if (group) {
+            const perm = combo[group.groupIndex];
+            if (perm) result.push(...perm);
+            i = group.endIdx + 1;
+            continue;
+          }
+        } else if (block.type !== 'swap-group-end') {
+          result.push(block);
+        }
+        i++;
+      }
+      return result;
+    }
 
-    const fullCommand = parts.join(' ');
+    function buildCommandFromBlocks(blocks, customCharsets, incrementEnabled, incrementMin, incrementMax) {
+      const maskParts = blocks.filter(b => b.type !== 'swap-group-start' && b.type !== 'swap-group-end').map(b => b.mask);
+      const mask = maskParts.join('');
+      const usedCustomIndices = new Set();
+      blocks.forEach(b => { if (b.type === 'custom' && b.customIndex) usedCustomIndices.add(b.customIndex); });
+      const charsetOptions = [];
+      customCharsets.forEach(cs => { if (usedCustomIndices.has(cs.index)) charsetOptions.push('-' + cs.index + ' ' + cs.chars); });
+      let incrementOption = '';
+      if (incrementEnabled) incrementOption = '-i ' + incrementMin + ':' + incrementMax;
+      const parts = ['mp64'];
+      charsetOptions.forEach(opt => parts.push(opt));
+      if (incrementOption) parts.push(incrementOption);
+      parts.push(mask);
+      return parts.join(' ');
+    }
 
-    navigator.clipboard.writeText(fullCommand).then(() => {
-      showSnackbar('Command copied to clipboard');
+    function computeUniqueCommands(groups, assemblyBlocks, customCharsets, incrementEnabled, incrementMin, incrementMax, maxResults, safetyLimitEnabled) {
+      const MAX_PER_GROUP = 500000;
+      const groupPerms = groups.map(group => {
+        const rawLimit = (safetyLimitEnabled && factorial(group.k) > MAX_PER_GROUP) ? MAX_PER_GROUP : undefined;
+        const perms = getPermutations(group.innerBlocks, rawLimit);
+        const seen = new Set();
+        const unique = [];
+        for (const perm of perms) {
+          const key = perm.map(b => b.mask).join('');
+          if (!seen.has(key)) { seen.add(key); unique.push(perm); }
+        }
+        const wasTruncated = rawLimit !== undefined && perms.length >= rawLimit;
+        // Use actual unique count; when truncated, estimate by scaling up
+        let count;
+        if (wasTruncated) {
+          // Estimate: unique.length is from rawLimit raw perms out of factorial(k) total
+          // Scale up proportionally, but cap at factorial(k)
+          const estimatedUnique = Math.min(factorial(group.k), Math.ceil(unique.length * (factorial(group.k) / rawLimit)));
+          count = estimatedUnique;
+        } else {
+          count = unique.length;
+        }
+        return { perms: unique, count, wasTruncated };
+      });
+
+      let totalEstimate = 1;
+      for (const gp of groupPerms) totalEstimate *= gp.count;
+
+      // Cartesian product with optional truncation
+      let combos = [{}];
+      let truncated = groupPerms.some(gp => gp.wasTruncated);
+      for (let g = 0; g < groupPerms.length; g++) {
+        const newCombos = [];
+        for (const combo of combos) {
+          for (const perm of groupPerms[g].perms) {
+            newCombos.push({ ...combo, [g]: perm });
+            if (maxResults !== undefined && newCombos.length >= maxResults) { truncated = true; break; }
+          }
+          if (truncated) break;
+        }
+        combos = newCombos;
+        if (truncated) break;
+      }
+
+      // Build and deduplicate commands
+      const seen = new Set();
+      const commands = [];
+      const perms = [];
+      for (const combo of combos) {
+        const blocks = buildPermutedBlocks(combo, groups, assemblyBlocks);
+        const cmd = buildCommandFromBlocks(blocks, customCharsets, incrementEnabled, incrementMin, incrementMax);
+        if (!seen.has(cmd)) {
+          seen.add(cmd);
+          if (maxResults !== undefined) {
+            // Display mode: return structured data with cmd details
+            const maskParts = blocks.filter(b => b.type !== 'swap-group-start' && b.type !== 'swap-group-end').map(b => b.mask);
+            const usedCustomIndices = new Set();
+            blocks.forEach(b => { if (b.type === 'custom' && b.customIndex) usedCustomIndices.add(b.customIndex); });
+            const csOpts = [];
+            customCharsets.forEach(cs => { if (usedCustomIndices.has(cs.index)) csOpts.push('-' + cs.index + ' ' + cs.chars); });
+            const incOpt = incrementEnabled ? '-i ' + incrementMin + ':' + incrementMax : '';
+            perms.push({ cmd: { command: cmd, charsetOptions: csOpts, incrementOption: incOpt, mask: maskParts.join('') } });
+          } else {
+            // Copy mode: return plain command strings
+            commands.push(cmd);
+          }
+        }
+      }
+
+      return { perms, commands, truncated, totalEstimate };
+    }
+
+    self.onmessage = function(e) {
+      try {
+        const { mode, groups, assemblyBlocks, customCharsets, incrementEnabled, incrementMin, incrementMax, maxResults, safetyLimitEnabled } = e.data;
+        if (mode === 'display') {
+          const result = computeUniqueCommands(groups, assemblyBlocks, customCharsets, incrementEnabled, incrementMin, incrementMax, maxResults, safetyLimitEnabled);
+          self.postMessage({ mode: 'display', perms: result.perms, truncated: result.truncated, totalEstimate: result.totalEstimate });
+        } else {
+          const result = computeUniqueCommands(groups, assemblyBlocks, customCharsets, incrementEnabled, incrementMin, incrementMax, undefined, safetyLimitEnabled);
+          self.postMessage({ mode: 'copy', commands: result.commands, truncated: result.truncated, totalEstimate: result.totalEstimate });
+        }
+      } catch (err) {
+        self.postMessage({ error: err.message });
+      }
+    };
+  `;
+
+  const workerBlob = new Blob([workerScript], { type: 'text/javascript' });
+  const workerUrl = URL.createObjectURL(workerBlob);
+  let activeWorker = null;
+  let activeDisplayWorker = null;
+
+  function setCopyLoading(loading) {
+    if (loading) {
+      copyBtnIcon.textContent = 'progress_activity';
+      copyBtn.classList.add('md-filled-button--loading');
+      copyBtn.disabled = true;
+    } else {
+      copyBtnIcon.textContent = 'content_copy';
+      copyBtn.classList.remove('md-filled-button--loading');
+      copyBtn.disabled = false;
+    }
+  }
+
+  function copyToClipboard(text, count) {
+    const copyMsg = `Copied ${count.toLocaleString()} commands to clipboard`;
+    navigator.clipboard.writeText(text).then(() => {
+      showSnackbar(copyMsg);
     }).catch(() => {
-      // Fallback
       const textarea = document.createElement('textarea');
-      textarea.value = fullCommand;
+      textarea.value = text;
       textarea.style.position = 'fixed';
       textarea.style.opacity = '0';
       document.body.appendChild(textarea);
       textarea.select();
       try {
         document.execCommand('copy');
-        showSnackbar('Command copied to clipboard');
+        showSnackbar(copyMsg);
       } catch (err) {
         showSnackbar('Failed to copy command');
       }
       document.body.removeChild(textarea);
+    });
+  }
+
+  copyBtn.addEventListener('click', () => {
+    if (state.assemblyBlocks.length === 0) {
+      showSnackbar('No command to copy');
+      return;
+    }
+
+    const groups = getAllSwapGroupInfos();
+
+    // No swap groups or not enough inner blocks — single command, copy directly
+    if (!groups || groups.every(g => g.k < 2)) {
+      const original = buildCommandFromBlocks(state.assemblyBlocks);
+      copyToClipboard(original.command, 1);
+      return;
+    }
+
+    // Cached and not truncated — copy from cache directly
+    if (state.cachedUniquePerms && !state.cachedTruncated && state.cachedUniquePerms.length <= 50) {
+      const commands = state.cachedUniquePerms.map(({ cmd }) => cmd.command);
+      copyToClipboard(commands.join('\n'), commands.length);
+      return;
+    }
+
+    // Large command set — use Web Worker for background computation
+    if (activeWorker) {
+      activeWorker.terminate();
+    }
+
+    setCopyLoading(true);
+
+    activeWorker = new Worker(workerUrl);
+    activeWorker.onmessage = (e) => {
+      setCopyLoading(false);
+      if (e.data.error) {
+        showSnackbar('Failed to copy commands');
+      } else if (e.data.mode === 'copy') {
+        const commands = e.data.commands;
+        copyToClipboard(commands.join('\n'), commands.length);
+        if (e.data.truncated && Number.isFinite(e.data.totalEstimate) && e.data.totalEstimate > commands.length) {
+          setTimeout(() => {
+            showSnackbar(`Only ${commands.length.toLocaleString()} of ~${e.data.totalEstimate.toLocaleString()} unique commands could be generated (safety limit)`);
+          }, 2500);
+        }
+      }
+      activeWorker.terminate();
+      activeWorker = null;
+    };
+
+    activeWorker.onerror = () => {
+      setCopyLoading(false);
+      showSnackbar('Failed to copy commands');
+      activeWorker.terminate();
+      activeWorker = null;
+    };
+
+    // Send data to Worker (serialize blocks without functions)
+    const serializableGroups = groups.map(g => ({
+      startIdx: g.startIdx,
+      endIdx: g.endIdx,
+      innerBlocks: g.innerBlocks.map(b => ({ type: b.type, mask: b.mask, label: b.label, customIndex: b.customIndex, customChars: b.customChars })),
+      k: g.k,
+      groupIndex: g.groupIndex
+    }));
+    const serializableBlocks = state.assemblyBlocks.map(b => ({ type: b.type, mask: b.mask, label: b.label, customIndex: b.customIndex, customChars: b.customChars }));
+
+    activeWorker.postMessage({
+      mode: 'copy',
+      groups: serializableGroups,
+      assemblyBlocks: serializableBlocks,
+      customCharsets: state.customCharsets,
+      incrementEnabled: state.incrementEnabled,
+      incrementMin: state.incrementMin,
+      incrementMax: state.incrementMax,
+      safetyLimitEnabled: state.safetyLimitEnabled
     });
   });
 
